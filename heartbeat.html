@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MeshBroker Agent Heartbeat — X Layer</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#0a0a0f;color:#e0e0e0;font-family:'SF Mono',monospace;padding:24px}
+  .header{border-bottom:1px solid #1a1a2e;padding-bottom:16px;margin-bottom:24px}
+  .title{font-size:22px;font-weight:700;color:#fff;letter-spacing:1px}
+  .subtitle{font-size:12px;color:#666;margin-top:4px}
+  .network-badge{display:inline-flex;align-items:center;gap:6px;background:#0d1117;
+    border:1px solid #30363d;border-radius:4px;padding:4px 10px;font-size:11px;
+    color:#00ff88;margin-top:8px}
+  .protocol-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+  .proto-card{background:#0d1117;border:1px solid #1e3a5f;border-radius:8px;padding:16px;text-align:center}
+  .proto-val{font-size:24px;font-weight:700;color:#4fc3f7}
+  .proto-lbl{font-size:11px;color:#666;margin-top:4px;text-transform:uppercase;letter-spacing:1px}
+  .section-title{font-size:13px;font-weight:600;color:#888;text-transform:uppercase;
+    letter-spacing:2px;margin-bottom:12px}
+  .agent-card{background:#0d1117;border:1px solid #1e3a5f;border-radius:8px;
+    padding:16px;margin-bottom:12px}
+  .agent-header{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+  .status-dot{font-size:14px}
+  .agent-name{font-size:15px;font-weight:700;color:#fff;flex:1}
+  .tier-badge{font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px}
+  .agent-addr{font-size:10px;color:#444;margin-bottom:12px;font-family:monospace}
+  .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+  .stat{text-align:center;background:#12121a;border-radius:4px;padding:8px}
+  .stat-val{font-size:18px;font-weight:700;color:#e0e0e0}
+  .stat-lbl{font-size:10px;color:#555;margin-top:2px;text-transform:uppercase}
+  .bar-container{background:#1a1a2e;border-radius:4px;height:6px;overflow:hidden;margin-bottom:4px}
+  .bar-fill{height:100%;border-radius:4px;transition:width 0.3s ease}
+  .bar-labels{display:flex;justify-content:space-between;font-size:10px;color:#444}
+  .footer{text-align:center;margin-top:24px;font-size:11px;color:#333;border-top:1px solid #1a1a2e;padding-top:16px}
+  .generated{color:#444;font-size:10px;text-align:right;margin-top:4px}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="title">⚡ MESHBROKER AGENT HEARTBEAT</div>
+  <div class="subtitle">Live trust scores · On-chain reputation · X Layer Testnet</div>
+  <div class="network-badge">● CONNECTED — Block #26135570 &nbsp;|&nbsp; Contract: 0x1699c6ae...CAE26e</div>
+</div>
+
+<div class="protocol-stats">
+  <div class="proto-card">
+    <div class="proto-val">215.57</div>
+    <div class="proto-lbl">Escrow Balance (USDT)</div>
+  </div>
+  <div class="proto-card">
+    <div class="proto-val">1.0500</div>
+    <div class="proto-lbl">Protocol Treasury (USDT)</div>
+  </div>
+  <div class="proto-card">
+    <div class="proto-val">#26,135,570</div>
+    <div class="proto-lbl">Current Block</div>
+  </div>
+</div>
+
+<div class="section-title">Agent Reputation Ledger</div>
+
+        <div class="agent-card">
+          <div class="agent-header">
+            <span class="status-dot">🟡</span>
+            <span class="agent-name">WorkerAgent</span>
+            <span class="tier-badge" style="background:#332200;color:#ffd700">🥈 SILVER</span>
+          </div>
+          <div class="agent-addr">0x81E9DfC4788a2753f009822Db61Eda35f018f54c</div>
+          <div class="stats-row">
+            <div class="stat"><div class="stat-val">60</div><div class="stat-lbl">Trust Score</div></div>
+            <div class="stat"><div class="stat-val">20</div><div class="stat-lbl">Jobs Done</div></div>
+            <div class="stat"><div class="stat-val">3</div><div class="stat-lbl">Slashes</div></div>
+            <div class="stat"><div class="stat-val">1015.10</div><div class="stat-lbl">USDT Bal</div></div>
+          </div>
+          <div class="bar-container">
+            <div class="bar-fill" style="width:60%;background:#ffd700"></div>
+          </div>
+          <div class="bar-labels"><span>0</span><span>Trust Score: 60/100</span><span>100</span></div>
+        </div>
+        <div class="agent-card">
+          <div class="agent-header">
+            <span class="status-dot">🟡</span>
+            <span class="agent-name">VerifierAgent</span>
+            <span class="tier-badge" style="background:#332200;color:#ffd700">🥈 SILVER</span>
+          </div>
+          <div class="agent-addr">0xeAc718341589eaC892d318CBb905E90e322d1f80</div>
+          <div class="stats-row">
+            <div class="stat"><div class="stat-val">68</div><div class="stat-lbl">Trust Score</div></div>
+            <div class="stat"><div class="stat-val">9</div><div class="stat-lbl">Jobs Done</div></div>
+            <div class="stat"><div class="stat-val">0</div><div class="stat-lbl">Slashes</div></div>
+            <div class="stat"><div class="stat-val">769.42</div><div class="stat-lbl">USDT Bal</div></div>
+          </div>
+          <div class="bar-container">
+            <div class="bar-fill" style="width:68%;background:#ffd700"></div>
+          </div>
+          <div class="bar-labels"><span>0</span><span>Trust Score: 68/100</span><span>100</span></div>
+        </div>
+        <div class="agent-card">
+          <div class="agent-header">
+            <span class="status-dot">🟡</span>
+            <span class="agent-name">BuyerAgent</span>
+            <span class="tier-badge" style="background:#332200;color:#ffd700">🥈 SILVER</span>
+          </div>
+          <div class="agent-addr">0xeAc718341589eaC892d318CBb905E90e322d1f80</div>
+          <div class="stats-row">
+            <div class="stat"><div class="stat-val">68</div><div class="stat-lbl">Trust Score</div></div>
+            <div class="stat"><div class="stat-val">9</div><div class="stat-lbl">Jobs Done</div></div>
+            <div class="stat"><div class="stat-val">0</div><div class="stat-lbl">Slashes</div></div>
+            <div class="stat"><div class="stat-val">769.42</div><div class="stat-lbl">USDT Bal</div></div>
+          </div>
+          <div class="bar-container">
+            <div class="bar-fill" style="width:68%;background:#ffd700"></div>
+          </div>
+          <div class="bar-labels"><span>0</span><span>Trust Score: 68/100</span><span>100</span></div>
+        </div>
+
+<div class="footer">
+  MeshBroker — Trustless SLA Enforcement for the Agentic Economy<br>
+  Built on X Layer (zkEVM) · OKX Onchain OS Hackathon 2026
+</div>
+<div class="generated">Generated: 2026-03-27 12:23:42 UTC</div>
+</body>
+</html>
