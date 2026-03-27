@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>MeshBroker · SLA Composer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080b0f;--bg2:#0d1117;--bg3:#111820;
+  --border:#1e2d3d;--border2:#243447;
+  --cyan:#00d4ff;--cyan-dim:#00a8cc;
+  --green:#00ff9d;--green-dim:#00cc7a;
+  --amber:#ffb700;--red:#ff4444;
+  --text:#c9d8e8;--text-dim:#5a7a96;--text-mute:#2a4060;
+  --mono:'JetBrains Mono',monospace;
+  --sans:'Syne',sans-serif;
+}
+html{background:var(--bg);color:var(--text);font-family:var(--mono)}
+body{min-height:100vh;overflow-x:hidden}
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(0,212,255,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,212,255,.03) 1px,transparent 1px);
+  background-size:40px 40px;
+}
+.root{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:28px 24px;min-height:100vh;display:flex;flex-direction:column;gap:0}
+header{display:flex;align-items:center;justify-content:space-between;padding-bottom:20px;border-bottom:1px solid var(--border);margin-bottom:20px}
+.logo{display:flex;align-items:center;gap:14px}
+.logo-mark{width:36px;height:36px;border:1.5px solid var(--cyan);border-radius:8px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(0,212,255,.2),inset 0 0 8px rgba(0,212,255,.05)}
+.logo-mark::after{content:'⬡';color:var(--cyan);font-size:18px;line-height:1}
+.logo-text{font-family:var(--sans);font-size:18px;font-weight:800;letter-spacing:-.3px;color:#fff}
+.logo-text span{color:var(--cyan)}
+.logo-sub{font-size:10px;letter-spacing:.15em;color:var(--text-dim);text-transform:uppercase;margin-top:1px}
+.chain-badge{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text-dim);padding:6px 12px;border:1px solid var(--border);border-radius:6px;background:var(--bg2)}
+.pulse{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 6px var(--green)}50%{opacity:.5;box-shadow:0 0 14px var(--green)}}
+.statusbar{display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap}
+.stat-pill{flex:1;min-width:150px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px 16px;position:relative;overflow:hidden;transition:border-color .2s}
+.stat-pill:hover{border-color:var(--border2)}
+.stat-pill::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:.4}
+.stat-label{font-size:9px;letter-spacing:.18em;color:var(--text-dim);text-transform:uppercase}
+.stat-value{font-size:17px;font-weight:700;color:var(--cyan);margin-top:4px}
+.stat-value.green{color:var(--green)}
+.stat-value.amber{color:var(--amber)}
+.stat-value.sm{font-size:11px;color:var(--text-dim);margin-top:6px}
+.workspace{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start;flex:1}
+@media(max-width:720px){.workspace{grid-template-columns:1fr}}
+.panel{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.panel-header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.01)}
+.ph-icon{font-size:13px;width:24px;text-align:center;opacity:.6}
+.ph-title{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-dim);font-weight:500}
+.panel-body{padding:18px}
+.input-label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;display:block}
+textarea#ti{width:100%;height:110px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--mono);font-size:13px;line-height:1.6;padding:12px 14px;resize:vertical;outline:none;transition:border-color .2s,box-shadow .2s}
+textarea#ti::placeholder{color:var(--text-mute)}
+textarea#ti:focus{border-color:var(--cyan-dim);box-shadow:0 0 0 3px rgba(0,212,255,.06)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{font-size:10px;padding:4px 10px;background:rgba(0,212,255,.04);border:1px solid var(--border);border-radius:999px;color:var(--text-dim);cursor:pointer;transition:all .15s;white-space:nowrap}
+.chip:hover{border-color:var(--cyan-dim);color:var(--cyan);background:rgba(0,212,255,.08)}
+.btn{margin-top:16px;width:100%;height:44px;background:linear-gradient(135deg,#003d55,#005a7a);border:1px solid var(--cyan-dim);border-radius:8px;color:var(--cyan);font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;cursor:pointer;position:relative;overflow:hidden;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,212,255,.1),transparent);opacity:0;transition:opacity .2s}
+.btn:hover{border-color:var(--cyan);box-shadow:0 0 20px rgba(0,212,255,.15)}
+.btn:hover::before{opacity:1}
+.btn:active{transform:scale(.99)}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.spinner{width:14px;height:14px;border:2px solid rgba(0,212,255,.2);border-top-color:var(--cyan);border-radius:50%;animation:spin .6s linear infinite;display:none}
+.btn.loading .spinner{display:block}
+.btn.loading .bl{display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.out{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px;min-height:280px;font-size:12px;line-height:1.7;color:var(--text-dim);overflow:auto;position:relative;transition:border-color .3s}
+.out.has{border-color:var(--border2)}
+.ph2{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;pointer-events:none}
+.ph2-icon{font-size:28px;opacity:.15}
+.ph2-text{font-size:11px;color:var(--text-mute);letter-spacing:.06em}
+.out.has .ph2{display:none}
+.jk{color:var(--cyan)}.js{color:var(--green-dim)}.jn{color:var(--amber)}.jb{color:#9b8bff}.jnull{color:var(--red)}
+.card{display:none;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px;margin-top:14px}
+.card.vis{display:block}
+.cr{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.03);font-size:12px}
+.cr:last-child{border-bottom:none}
+.cl{color:var(--text-dim)}.cv{color:var(--text);font-weight:500}
+.cv.green{color:var(--green)}.cv.amber{color:var(--amber)}
+.rb{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:600}
+.rl{background:rgba(0,255,157,.1);color:var(--green);border:1px solid rgba(0,255,157,.2)}
+.rm{background:rgba(255,183,0,.1);color:var(--amber);border:1px solid rgba(255,183,0,.2)}
+.rh{background:rgba(255,68,68,.1);color:var(--red);border:1px solid rgba(255,68,68,.2)}
+.cpbtn{margin-top:10px;width:100%;height:36px;background:transparent;border:1px solid var(--border);border-radius:6px;color:var(--text-dim);font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .15s;display:none}
+.cpbtn.vis{display:block}
+.cpbtn:hover{border-color:var(--border2);color:var(--text)}
+.cpbtn.ok{border-color:var(--green-dim);color:var(--green)}
+.hl{display:flex;flex-direction:column;gap:8px}
+.hi{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 12px;cursor:pointer;transition:border-color .15s;font-size:11px}
+.hi:hover{border-color:var(--border2)}
+.ht{color:var(--text);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hm{color:var(--text-dim);margin-top:3px}
+.ha{color:var(--green);font-weight:700}
+.eh{text-align:center;padding:28px;font-size:11px;color:var(--text-mute);letter-spacing:.06em}
+.toast{position:fixed;bottom:24px;right:24px;background:#1a0808;border:1px solid var(--red);border-radius:8px;padding:12px 16px;color:var(--red);font-size:12px;display:none;z-index:100;max-width:340px}
+.toast.vis{display:block;animation:si .2s ease}
+@keyframes si{from{transform:translateY(8px);opacity:0}to{transform:translateY(0);opacity:1}}
+footer{margin-top:20px;padding-top:16px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--text-mute);flex-wrap:wrap;gap:8px}
+footer a{color:var(--text-dim);text-decoration:none}
+footer a:hover{color:var(--cyan)}
+@keyframes fi{from{opacity:0}to{opacity:1}}
+.jr{animation:fi .3s ease}
+</style>
+</head>
+<body>
+<div class="root">
+
+<header>
+  <div class="logo">
+    <div class="logo-mark"></div>
+    <div>
+      <div class="logo-text">Mesh<span>Broker</span></div>
+      <div class="logo-sub">SLA Composer · Phase 4.5</div>
+    </div>
+  </div>
+  <div class="chain-badge"><div class="pulse"></div><span>X Layer Testnet</span></div>
+</header>
+
+<div class="statusbar">
+  <div class="stat-pill"><div class="stat-label">Block</div><div class="stat-value green" id="sBlock">—</div></div>
+  <div class="stat-pill"><div class="stat-label">Escrow Balance</div><div class="stat-value" id="sEscrow">—</div></div>
+  <div class="stat-pill"><div class="stat-label">Protocol Treasury</div><div class="stat-value amber" id="sTreasury">—</div></div>
+  <div class="stat-pill"><div class="stat-label">Model</div><div class="stat-value sm">claude-haiku-4-5</div></div>
+</div>
+
+<div class="workspace">
+  <div>
+    <div class="panel">
+      <div class="panel-header"><span class="ph-icon">⌨</span><span class="ph-title">Task Composer</span></div>
+      <div class="panel-body">
+        <label class="input-label" for="ti">Describe the agent task</label>
+        <textarea id="ti" placeholder="e.g. Fetch the current OKB/USDT spot price from OKX and return a JSON object with price, bid, ask, and 24h volume..."></textarea>
+        <div class="chips">
+          <div class="chip" data-t="Fetch live OKB/USDT price from OKX and return bid, ask, last, volume as JSON">OKX Price Feed</div>
+          <div class="chip" data-t="Compute SHA-256 hash of a given text payload and return the hex digest">Hash Computation</div>
+          <div class="chip" data-t="Search for the top 5 news articles about X Layer blockchain today and return titles and URLs">News Scraper</div>
+          <div class="chip" data-t="Analyze sentiment of a product review text and return a score from -1 to 1 with reasoning">Sentiment Analysis</div>
+          <div class="chip" data-t="Generate a 256-bit cryptographic random seed and return it as hex with entropy source metadata">Entropy Generator</div>
+        </div>
+        <button class="btn" id="cb" onclick="compose()">
+          <div class="spinner"></div>
+          <span class="bl">⬡ &nbsp;Compose SLA Spec</span>
+        </button>
+      </div>
+    </div>
+    <div class="panel" style="margin-top:16px">
+      <div class="panel-header"><span class="ph-icon">◷</span><span class="ph-title">Session History</span></div>
+      <div class="panel-body" style="padding:12px">
+        <div class="hl" id="hl"><div class="eh">No specs generated yet</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="panel">
+      <div class="panel-header"><span class="ph-icon">◈</span><span class="ph-title">SLA Specification</span></div>
+      <div class="panel-body">
+        <div class="out" id="out">
+          <div class="ph2"><div class="ph2-icon">◈</div><div class="ph2-text">SLA spec will appear here</div></div>
+          <div id="jo"></div>
+        </div>
+        <button class="cpbtn" id="cpbtn" onclick="copyJ()">⎘ &nbsp;Copy JSON</button>
+        <div class="card" id="card">
+          <div class="cr"><span class="cl">Task</span><span class="cv" id="cTask">—</span></div>
+          <div class="cr"><span class="cl">Payment</span><span class="cv green" id="cPay">—</span></div>
+          <div class="cr"><span class="cl">Deadline</span><span class="cv" id="cDl">—</span></div>
+          <div class="cr"><span class="cl">Proof Type</span><span class="cv amber" id="cPt">—</span></div>
+          <div class="cr"><span class="cl">Risk</span><span class="cv" id="cRisk">—</span></div>
+          <div class="cr"><span class="cl">Category</span><span class="cv" id="cCat">—</span></div>
+          <div class="cr"><span class="cl">Internet Required</span><span class="cv" id="cNet">—</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>MeshBroker · Trustless SLA Enforcement · X Layer Testnet (zkEVM)</span>
+  <span>
+    <a href="https://github.com/Vinaystwt/meshbroker-agents" target="_blank">GitHub</a>
+    &nbsp;·&nbsp;
+    <a href="https://www.okx.com/explorer/xlayer-test" target="_blank">Explorer</a>
+  </span>
+</footer>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+let spec=null,hist=[];
+
+async function poll(){
+  try{
+    const d=await(await fetch('/status')).json();
+    if(d.rpc_ok){
+      document.getElementById('sBlock').textContent='#'+Number(d.block).toLocaleString();
+      document.getElementById('sEscrow').textContent=d.escrow+' USDT';
+      document.getElementById('sTreasury').textContent=d.treasury+' USDT';
+    }
+  }catch(e){}
+}
+poll();setInterval(poll,8000);
+
+document.querySelectorAll('.chip').forEach(c=>{
+  c.addEventListener('click',()=>{document.getElementById('ti').value=c.dataset.t;document.getElementById('ti').focus();});
+});
+
+async function compose(){
+  const task=document.getElementById('ti').value.trim();
+  if(!task){toast('Please enter a task description');return;}
+  const btn=document.getElementById('cb');
+  btn.disabled=true;btn.classList.add('loading');
+  clear();
+  try{
+    const r=await fetch('/compose',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({task})});
+    const d=await r.json();
+    if(!d.ok||!d.spec)throw new Error(d.error||'Unknown error');
+    render(d.spec,task);addHist(task,d.spec);
+  }catch(e){toast('Error: '+e.message);}
+  finally{btn.disabled=false;btn.classList.remove('loading');}
+}
+
+function render(s,task){
+  spec=s;
+  document.getElementById('jo').innerHTML='<div class="jr">'+hl(JSON.stringify(s,null,2))+'</div>';
+  document.getElementById('out').classList.add('has');
+  document.getElementById('card').classList.add('vis');
+  document.getElementById('cTask').textContent=s.task||'—';
+  document.getElementById('cPay').textContent='$'+(s.payment_usdt||'—')+' USDT';
+  document.getElementById('cDl').textContent=(s.deadline_minutes||'—')+' min';
+  document.getElementById('cPt').textContent=s.proof_type||'—';
+  document.getElementById('cCat').textContent=(s.metadata&&s.metadata.category)||'—';
+  const net=s.metadata&&s.metadata.requires_internet;
+  const ne=document.getElementById('cNet');
+  ne.textContent=net?'Yes':'No';ne.className='cv '+(net?'amber':'green');
+  const risk=((s.risk_level||'low').toLowerCase());
+  const rc=risk.startsWith('m')?'rm':risk.startsWith('h')?'rh':'rl';
+  document.getElementById('cRisk').innerHTML='<span class="rb '+rc+'">'+risk+'</span>';
+  document.getElementById('cpbtn').classList.add('vis');
+}
+
+function clear(){
+  document.getElementById('jo').innerHTML='';
+  document.getElementById('out').classList.remove('has');
+  document.getElementById('card').classList.remove('vis');
+  document.getElementById('cpbtn').classList.remove('vis');
+  spec=null;
+}
+
+function hl(json){
+  return json.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,m=>{
+      let c='jn';
+      if(/^"/.test(m))c=/:$/.test(m)?'jk':'js';
+      else if(/true|false/.test(m))c='jb';
+      else if(/null/.test(m))c='jnull';
+      return '<span class="'+c+'">'+m+'</span>';
+    });
+}
+
+function addHist(task,s){
+  hist.unshift({task,s});
+  const l=document.getElementById('hl');
+  if(hist.length===1)l.innerHTML='';
+  const el=document.createElement('div');
+  el.className='hi';
+  el.innerHTML='<div class="ht">'+esc(task.slice(0,60))+(task.length>60?'…':'')+'</div>'
+    +'<div class="hm"><span class="ha">$'+s.payment_usdt+' USDT</span> · '+s.task+' · '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})+'</div>';
+  el.onclick=()=>render(s,task);
+  l.prepend(el);
+}
+
+function copyJ(){
+  if(!spec)return;
+  navigator.clipboard.writeText(JSON.stringify(spec,null,2)).then(()=>{
+    const b=document.getElementById('cpbtn');
+    b.textContent='✓ Copied';b.classList.add('ok');
+    setTimeout(()=>{b.textContent='⎘ \u00a0Copy JSON';b.classList.remove('ok');},2000);
+  });
+}
+
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('vis');
+  setTimeout(()=>t.classList.remove('vis'),4000);
+}
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key==='Enter')compose();});
+</script>
+</body>
+</html>
