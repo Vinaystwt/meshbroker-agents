@@ -1,0 +1,35 @@
+{
+  "agents": {
+    "0x81E9DfC4788a2753f009822Db61Eda35f018f54c": {
+      "name": "MeshWorker-Alpha",
+      "address": "0x81E9DfC4788a2753f009822Db61Eda35f018f54c",
+      "specialty": "market_data",
+      "stake_usdt": 10.0,
+      "registry_tx": "2436d4facb021c9f2166c89784a723751ff9e19840afaa66f3cc33542912d77b",
+      "registry_sla_id": "bc0388baa330a59211c9e62a90ac8d5a3265fedc00b681e6fa70d96d0c03a570",
+      "registered_ts": 1774600360,
+      "completed_slas": 0,
+      "slash_count": 0,
+      "onchain_nonce": 54,
+      "usdt_balance": 1015.075,
+      "status": "active",
+      "reputation": 30.0
+    },
+    "0xeAc718341589eaC892d318CBb905E90e322d1f80": {
+      "name": "MeshVerifier-Prime",
+      "address": "0xeAc718341589eaC892d318CBb905E90e322d1f80",
+      "specialty": "security",
+      "stake_usdt": 10.0,
+      "registry_tx": "d9235160a3cf517c6d39d33a2ad01baedf3f6a3dc87618c3cdb00e5d54da190b",
+      "registry_sla_id": "seeded-verifier",
+      "registered_ts": 1774427551,
+      "completed_slas": 5,
+      "slash_count": 0,
+      "status": "active",
+      "usdt_balance": 749.375,
+      "onchain_nonce": 65,
+      "reputation": 84.0
+    }
+  },
+  "updated_at": "2026-03-27T08:32:42.610746+00:00"
+}
