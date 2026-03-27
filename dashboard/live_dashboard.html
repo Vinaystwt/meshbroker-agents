@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
+<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>MeshBroker — The Trust Layer for the Agentic Economy</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -287,8 +289,38 @@ section{padding:100px 24px;max-width:1200px;margin:0 auto}
 <!-- NAV -->
 <nav>
   <div class="nav-logo">
-    <div class="nav-hex">⬡</div>
-    <div class="nav-name">Mesh<span>Broker</span></div>
+    <div style="height:36px;display:flex;align-items:center;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 120" width="240" height="48">
+  <rect width="240" height="48" fill="#000000"/>
+
+  <!-- 3x3 dot grid icon, origin at (32, 36) with 14px spacing -->
+  <!-- Row 1: dots at (32,36) (46,36) (60,36) -->
+  <!-- Row 2: dots at (32,50) (46,50) (60,50) -->
+  <!-- Row 3: dots at (32,64) (46,64) (60,64) -->
+
+  <!-- white 30% opacity dots -->
+  <circle cx="32" cy="36" r="3" fill="#FFFFFF" fill-opacity="0.3"/>
+  <circle cx="60" cy="36" r="3" fill="#FFFFFF" fill-opacity="0.3"/>
+  <circle cx="32" cy="50" r="3" fill="#FFFFFF" fill-opacity="0.3"/>
+  <circle cx="60" cy="50" r="3" fill="#FFFFFF" fill-opacity="0.3"/>
+  <circle cx="32" cy="64" r="3" fill="#FFFFFF" fill-opacity="0.3"/>
+  <circle cx="60" cy="64" r="3" fill="#FFFFFF" fill-opacity="0.3"/>
+
+  <!-- #00d4ff accent dots: center + top-right + bottom-left diagonals -->
+  <circle cx="46" cy="50" r="3" fill="#00d4ff"/>
+  <circle cx="60" cy="36" r="3" fill="#00d4ff"/>
+  <circle cx="32" cy="64" r="3" fill="#00d4ff"/>
+
+  <!-- Wordmark -->
+  <text
+    x="88"
+    y="67"
+    font-family="'Helvetica Neue','Arial',sans-serif"
+    font-size="42"
+    font-weight="600"
+    letter-spacing="0.15em"
+    fill="#FFFFFF"
+  >MESHBROKER</text>
+</svg></div>
   </div>
   <div class="nav-links">
     <a href="#how">How It Works</a>
