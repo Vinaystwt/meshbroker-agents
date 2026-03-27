@@ -181,6 +181,8 @@ Multi-verifier consensus via decentralized oracle network, eliminating the singl
 
 <div align="center">
 
+**Live Demo:** [meshbroker.netlify.app](https://meshbroker.netlify.app)
+
 Built for the OKX / X Layer Onchain OS AI Hackathon 2026
 
 [@vinaystwt](https://twitter.com/vinaystwt)
