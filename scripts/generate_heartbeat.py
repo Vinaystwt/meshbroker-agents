@@ -178,11 +178,12 @@ def generate():
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23000'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%2300d4ff'/%3E%3Ccircle cx='9' cy='9' r='2.5' fill='%23fff' fill-opacity='.3'/%3E%3Ccircle cx='23' cy='9' r='2.5' fill='%2300d4ff'/%3E%3Ccircle cx='9' cy='23' r='2.5' fill='%2300d4ff'/%3E%3Ccircle cx='23' cy='23' r='2.5' fill='%23fff' fill-opacity='.3'/%3E%3C/svg%3E"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <meta http-equiv="refresh" content="30"/>
 <title>MeshBroker · Agent Heartbeat</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{{box-sizing:border-box;margin:0;padding:0}}
 :root{{
@@ -190,7 +191,7 @@ def generate():
   --b1:#0e1a26;--b2:#162436;
   --cyan:#00d4ff;--green:#00ff9d;--amber:#ffb700;--red:#ff4444;
   --text:#a8c0d0;--dim:#3a5a6a;--mute:#162030;
-  --mono:'JetBrains Mono',monospace;--sans:'Syne',sans-serif;
+  --mono:'JetBrains Mono',monospace;--sans:'Space Grotesk','Outfit',sans-serif;
 }}
 html,body{{min-height:100vh;background:var(--bg);color:var(--text);font-family:var(--mono)}}
 body{{

@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23000'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%2300d4ff'/%3E%3Ccircle cx='9' cy='9' r='2.5' fill='%23fff' fill-opacity='.3'/%3E%3Ccircle cx='23' cy='9' r='2.5' fill='%2300d4ff'/%3E%3Ccircle cx='9' cy='23' r='2.5' fill='%2300d4ff'/%3E%3Ccircle cx='23' cy='23' r='2.5' fill='%23fff' fill-opacity='.3'/%3E%3C/svg%3E"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <meta http-equiv="refresh" content="30"/>
 <title>MeshBroker · Agent Heartbeat</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -14,7 +15,7 @@
   --b1:#0e1a26;--b2:#162436;
   --cyan:#00d4ff;--green:#00ff9d;--amber:#ffb700;--red:#ff4444;
   --text:#a8c0d0;--dim:#3a5a6a;--mute:#162030;
-  --mono:'JetBrains Mono',monospace;--sans:'Syne',sans-serif;
+  --mono:'JetBrains Mono',monospace;--sans:'Space Grotesk','Outfit',sans-serif;
 }
 html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:var(--mono)}
 body{
@@ -170,165 +171,37 @@ body{
 <!-- GITHUB BANNER WITH INLINE LOGO -->
 <div class="gh-banner">
   <div class="gh-banner-left">
-    <div class="banner-logo-svg"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200" width="800" height="200">
-  <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#000000"/>
-      <stop offset="100%" stop-color="#020810"/>
-    </linearGradient>
-    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#00d4ff"/>
-      <stop offset="60%" stop-color="#00eeff"/>
-      <stop offset="100%" stop-color="#00a8cc"/>
-    </linearGradient>
-    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="3" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <filter id="textglow" x="-5%" y="-20%" width="110%" height="140%">
-      <feGaussianBlur stdDeviation="8" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <filter id="subtleglow">
-      <feGaussianBlur stdDeviation="1.5" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-  </defs>
+    <div class="banner-logo-svg"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 120" width="600" height="120">
+  <rect width="600" height="120" fill="#000000"/>
 
-  <!-- Background -->
-  <rect width="800" height="200" fill="url(#bg)"/>
+  <!-- 3x3 dot grid icon, origin at (32, 36) with 14px spacing -->
+  <!-- Row 1: dots at (32,36) (46,36) (60,36) -->
+  <!-- Row 2: dots at (32,50) (46,50) (60,50) -->
+  <!-- Row 3: dots at (32,64) (46,64) (60,64) -->
 
-  <!-- Hex mesh pattern — left cluster -->
-  <g stroke="#001a2e" stroke-width="1" fill="none" opacity="0.9">
-    <!-- Row 1 -->
-    <polygon points="30,20 52,8 74,20 74,44 52,56 30,44" />
-    <polygon points="74,20 96,8 118,20 118,44 96,56 74,44" />
-    <polygon points="118,20 140,8 162,20 162,44 140,56 118,44" />
-    <polygon points="162,20 184,8 206,20 206,44 184,56 162,44" />
-    <polygon points="206,20 228,8 250,20 250,44 228,56 206,44" />
-    <!-- Row 2 offset -->
-    <polygon points="8,56 30,44 52,56 52,80 30,92 8,80" />
-    <polygon points="52,56 74,44 96,56 96,80 74,92 52,80" />
-    <polygon points="96,56 118,44 140,56 140,80 118,92 96,80" />
-    <polygon points="140,56 162,44 184,56 184,80 162,92 140,80" />
-    <polygon points="184,56 206,44 228,56 228,80 206,92 184,80" />
-    <polygon points="228,56 250,44 272,56 272,80 250,92 228,80" />
-    <!-- Row 3 -->
-    <polygon points="30,92 52,80 74,92 74,116 52,128 30,116" />
-    <polygon points="74,92 96,80 118,92 118,116 96,128 74,116" />
-    <polygon points="118,92 140,80 162,92 162,116 140,128 118,116" />
-    <polygon points="162,92 184,80 206,92 206,116 184,128 162,116" />
-    <polygon points="206,92 228,80 250,92 250,116 228,128 206,116" />
-    <!-- Row 4 offset -->
-    <polygon points="8,128 30,116 52,128 52,152 30,164 8,152" />
-    <polygon points="52,128 74,116 96,128 96,152 74,164 52,152" />
-    <polygon points="96,128 118,116 140,128 140,152 118,164 96,152" />
-    <polygon points="140,128 162,116 184,128 184,152 162,164 140,152" />
-    <polygon points="184,128 206,116 228,128 228,152 206,164 184,152" />
-    <polygon points="228,128 250,116 272,128 272,152 250,164 228,152" />
-    <!-- Row 5 -->
-    <polygon points="30,164 52,152 74,164 74,188 52,200 30,188" />
-    <polygon points="74,164 96,152 118,164 118,188 96,200 74,188" />
-    <polygon points="118,164 140,152 162,164 162,188 140,200 118,188" />
-    <polygon points="162,164 184,152 206,164 206,188 184,200 162,188" />
-  </g>
+  <!-- white 30% opacity dots -->
+  <circle cx="32" cy="36" r="3" fill="#FFFFFF" fill-opacity="0.3"/>
+  <circle cx="60" cy="36" r="3" fill="#FFFFFF" fill-opacity="0.3"/>
+  <circle cx="32" cy="50" r="3" fill="#FFFFFF" fill-opacity="0.3"/>
+  <circle cx="60" cy="50" r="3" fill="#FFFFFF" fill-opacity="0.3"/>
+  <circle cx="32" cy="64" r="3" fill="#FFFFFF" fill-opacity="0.3"/>
+  <circle cx="60" cy="64" r="3" fill="#FFFFFF" fill-opacity="0.3"/>
 
-  <!-- Hex mesh pattern — right cluster -->
-  <g stroke="#001a2e" stroke-width="1" fill="none" opacity="0.9">
-    <polygon points="550,20 572,8 594,20 594,44 572,56 550,44" />
-    <polygon points="594,20 616,8 638,20 638,44 616,56 594,44" />
-    <polygon points="638,20 660,8 682,20 682,44 660,56 638,44" />
-    <polygon points="682,20 704,8 726,20 726,44 704,56 682,44" />
-    <polygon points="726,20 748,8 770,20 770,44 748,56 726,44" />
-    <polygon points="528,56 550,44 572,56 572,80 550,92 528,80" />
-    <polygon points="572,56 594,44 616,56 616,80 594,92 572,80" />
-    <polygon points="616,56 638,44 660,56 660,80 638,92 616,80" />
-    <polygon points="660,56 682,44 704,56 704,80 682,92 660,80" />
-    <polygon points="704,56 726,44 748,56 748,80 726,92 704,80" />
-    <polygon points="748,56 770,44 792,56 792,80 770,92 748,80" />
-    <polygon points="550,92 572,80 594,92 594,116 572,128 550,116" />
-    <polygon points="594,92 616,80 638,92 638,116 616,128 594,116" />
-    <polygon points="638,92 660,80 682,92 682,116 660,128 638,116" />
-    <polygon points="682,92 704,80 726,92 726,116 704,128 682,116" />
-    <polygon points="726,92 748,80 770,92 770,116 748,128 726,116" />
-    <polygon points="528,128 550,116 572,128 572,152 550,164 528,152" />
-    <polygon points="572,128 594,116 616,128 616,152 594,164 572,152" />
-    <polygon points="616,128 638,116 660,128 660,152 638,164 616,152" />
-    <polygon points="660,128 682,116 704,128 704,152 682,164 660,152" />
-    <polygon points="704,128 726,116 748,128 748,152 726,164 704,152" />
-    <polygon points="748,128 770,116 792,128 792,152 770,164 748,152" />
-    <polygon points="550,164 572,152 594,164 594,188 572,200 550,188" />
-    <polygon points="594,164 616,152 638,164 638,188 616,200 594,188" />
-    <polygon points="638,164 660,152 682,164 682,188 660,200 638,188" />
-    <polygon points="682,164 704,152 726,164 726,188 704,200 682,188" />
-  </g>
+  <!-- #00d4ff accent dots: center + top-right + bottom-left diagonals -->
+  <circle cx="46" cy="50" r="3" fill="#00d4ff"/>
+  <circle cx="60" cy="36" r="3" fill="#00d4ff"/>
+  <circle cx="32" cy="64" r="3" fill="#00d4ff"/>
 
-  <!-- Glowing accent hex — highlighted nodes -->
-  <g filter="url(#subtleglow)" stroke="#00d4ff" stroke-width="1" fill="none" opacity="0.35">
-    <polygon points="96,56 118,44 140,56 140,80 118,92 96,80" />
-    <polygon points="140,56 162,44 184,56 184,80 162,92 140,80" />
-    <polygon points="638,92 660,80 682,92 682,116 660,128 638,116" />
-    <polygon points="616,56 638,44 660,56 660,80 638,92 616,80" />
-  </g>
-
-  <!-- Network connection dots -->
-  <g fill="#00d4ff" filter="url(#glow)" opacity="0.6">
-    <circle cx="118" cy="44" r="2.5"/>
-    <circle cx="162" cy="44" r="2"/>
-    <circle cx="96"  cy="80" r="2"/>
-    <circle cx="140" cy="80" r="3"/>
-    <circle cx="660" cy="80" r="2.5"/>
-    <circle cx="638" cy="44" r="2"/>
-    <circle cx="682" cy="116" r="2"/>
-    <circle cx="616" cy="80" r="3"/>
-  </g>
-
-  <!-- Fade overlay — left edge -->
-  <defs>
-    <linearGradient id="fadeL" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%"  stop-color="#000000" stop-opacity="1"/>
-      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
-    </linearGradient>
-    <linearGradient id="fadeR" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%"  stop-color="#000000" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#000000" stop-opacity="1"/>
-    </linearGradient>
-  </defs>
-  <rect width="280" height="200" fill="url(#fadeL)"/>
-  <rect x="520" width="280" height="200" fill="url(#fadeR)"/>
-
-  <!-- Center fade overlay to clear text area -->
-  <rect x="240" width="320" height="200" fill="#000000" opacity="0.7"/>
-
-  <!-- MESHBROKER wordmark -->
+  <!-- Wordmark -->
   <text
-    x="400" y="108"
-    font-family="'SF Pro Display','Helvetica Neue','Arial Black',Arial,sans-serif"
-    font-size="72"
-    font-weight="900"
-    letter-spacing="-2"
-    fill="url(#textGrad)"
-    text-anchor="middle"
-    filter="url(#textglow)"
+    x="88"
+    y="67"
+    font-family="'Helvetica Neue','Arial',sans-serif"
+    font-size="42"
+    font-weight="600"
+    letter-spacing="0.15em"
+    fill="#FFFFFF"
   >MESHBROKER</text>
-
-  <!-- Thin rule under wordmark -->
-  <line x1="280" y1="120" x2="520" y2="120" stroke="#00d4ff" stroke-width="0.5" opacity="0.4"/>
-
-  <!-- Tagline -->
-  <text
-    x="400" y="145"
-    font-family="'JetBrains Mono','Courier New',monospace"
-    font-size="13"
-    font-weight="400"
-    letter-spacing="4"
-    fill="#3a6a80"
-    text-anchor="middle"
-  >TRUSTLESS SLA ENFORCEMENT</text>
-
-  <!-- Outer border glow -->
-  <rect width="800" height="200" fill="none" stroke="#00d4ff" stroke-width="1" opacity="0.08"/>
-  <rect x="1" y="1" width="798" height="198" fill="none" stroke="#00d4ff" stroke-width="0.5" opacity="0.05" rx="2"/>
 </svg>
 </div>
     <div class="banner-tagline">Agent Trust Heartbeat &nbsp;·&nbsp; X Layer Testnet</div>
@@ -352,7 +225,7 @@ body{
   </div>
   <div class="hdr-right">
     <div class="conn-badge"><div class="dot-pulse"></div><span class="conn-text">CONNECTED</span></div>
-    <div class="hdr-ts">Updated: 2026-03-27 17:26:05 UTC<br/>Auto-refresh every 30s</div>
+    <div class="hdr-ts">Updated: 2026-03-27 18:24:18 UTC<br/>Auto-refresh every 30s</div>
   </div>
 </div>
 
@@ -362,7 +235,7 @@ body{
   <div class="stats-row">
     <div class="s-box">
       <div class="s-lbl">Latest Block</div>
-      <div class="s-val g">#26,173,522</div>
+      <div class="s-val g">#26,177,016</div>
       <div class="s-sub">Confirmed on-chain</div>
     </div>
     <div class="s-box">
