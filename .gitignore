@@ -36,3 +36,6 @@ node_modules/
 # Generated (kept in repo intentionally)
 # heartbeat.html — keep
 # registry_snapshot.json — keep
+
+# Local Netlify folder
+.netlify
