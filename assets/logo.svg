@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 120" width="480" height="120">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Syne:wght@800&amp;display=swap');
+    </style>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#080b0f"/>
+      <stop offset="100%" stop-color="#0d1117"/>
+    </linearGradient>
+    <linearGradient id="glowLine" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#00d4ff" stop-opacity="0"/>
+      <stop offset="50%"  stop-color="#00d4ff" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#00d4ff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="nodeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#00d4ff"/>
+      <stop offset="100%" stop-color="#0088aa"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="softglow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="480" height="120" fill="url(#bgGrad)" rx="12"/>
+
+  <!-- Subtle grid -->
+  <g opacity="0.06" stroke="#00d4ff" stroke-width="0.5">
+    <line x1="0"   y1="20"  x2="480" y2="20"/>
+    <line x1="0"   y1="40"  x2="480" y2="40"/>
+    <line x1="0"   y1="60"  x2="480" y2="60"/>
+    <line x1="0"   y1="80"  x2="480" y2="80"/>
+    <line x1="0"   y1="100" x2="480" y2="100"/>
+    <line x1="40"  y1="0"   x2="40"  y2="120"/>
+    <line x1="80"  y1="0"   x2="80"  y2="120"/>
+    <line x1="120" y1="0"   x2="120" y2="120"/>
+  </g>
+
+  <!-- Mesh network — edge lines -->
+  <g stroke="#00d4ff" stroke-width="1" opacity="0.25" filter="url(#glow)">
+    <!-- node connections -->
+    <line x1="22" y1="30"  x2="58" y2="18"/>
+    <line x1="22" y1="30"  x2="52" y2="60"/>
+    <line x1="58" y1="18"  x2="90" y2="38"/>
+    <line x1="52" y1="60"  x2="90" y2="38"/>
+    <line x1="52" y1="60"  x2="38" y2="88"/>
+    <line x1="90" y1="38"  x2="78" y2="72"/>
+    <line x1="38" y1="88"  x2="78" y2="72"/>
+    <line x1="78" y1="72"  x2="100" y2="92"/>
+    <line x1="58" y1="18"  x2="78" y2="10"/>
+    <line x1="90" y1="38"  x2="108" y2="28"/>
+    <line x1="100" y1="92" x2="112" y2="76"/>
+  </g>
+
+  <!-- Mesh network — brighter accent lines -->
+  <g stroke="#00d4ff" stroke-width="1.5" opacity="0.5" filter="url(#glow)">
+    <line x1="22" y1="30" x2="52" y2="60"/>
+    <line x1="52" y1="60" x2="90" y2="38"/>
+    <line x1="90" y1="38" x2="78" y2="72"/>
+  </g>
+
+  <!-- Nodes -->
+  <g filter="url(#glow)">
+    <circle cx="22"  cy="30"  r="3.5" fill="url(#nodeGrad)" opacity="0.9"/>
+    <circle cx="58"  cy="18"  r="2.5" fill="#00d4ff" opacity="0.7"/>
+    <circle cx="52"  cy="60"  r="3"   fill="url(#nodeGrad)" opacity="0.85"/>
+    <circle cx="90"  cy="38"  r="4"   fill="#00d4ff" opacity="1"/>
+    <circle cx="38"  cy="88"  r="2.5" fill="#00d4ff" opacity="0.6"/>
+    <circle cx="78"  cy="72"  r="3"   fill="url(#nodeGrad)" opacity="0.8"/>
+    <circle cx="100" cy="92"  r="2"   fill="#00d4ff" opacity="0.5"/>
+    <circle cx="78"  cy="10"  r="2"   fill="#00d4ff" opacity="0.4"/>
+    <circle cx="108" cy="28"  r="2"   fill="#00d4ff" opacity="0.5"/>
+    <circle cx="112" cy="76"  r="2"   fill="#00d4ff" opacity="0.45"/>
+  </g>
+
+  <!-- Central accent node — brightest -->
+  <circle cx="90" cy="38" r="5.5" fill="none" stroke="#00d4ff" stroke-width="1.5" opacity="0.6" filter="url(#softglow)"/>
+  <circle cx="90" cy="38" r="3"   fill="#00d4ff" filter="url(#softglow)"/>
+
+  <!-- Divider line -->
+  <rect x="128" y="20" width="1" height="80" fill="url(#glowLine)" opacity="0.4"/>
+
+  <!-- Wordmark: MESH -->
+  <text
+    x="148" y="58"
+    font-family="'Syne', 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif"
+    font-size="38"
+    font-weight="800"
+    letter-spacing="-1"
+    fill="#ffffff"
+  >MESH</text>
+
+  <!-- Wordmark: BROKER -->
+  <text
+    x="148" y="88"
+    font-family="'Syne', 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif"
+    font-size="26"
+    font-weight="800"
+    letter-spacing="6"
+    fill="#00d4ff"
+    filter="url(#glow)"
+  >BROKER</text>
+
+  <!-- Tagline -->
+  <text
+    x="149" y="104"
+    font-family="'JetBrains Mono', 'Courier New', monospace"
+    font-size="8.5"
+    font-weight="400"
+    letter-spacing="2.5"
+    fill="#3a6080"
+  >TRUSTLESS SLA · X LAYER</text>
+
+  <!-- Top-right accent: protocol badge -->
+  <g opacity="0.7">
+    <rect x="398" y="18" width="64" height="20" rx="4"
+          fill="none" stroke="#00d4ff" stroke-width="1" opacity="0.4"/>
+    <text
+      x="430" y="31"
+      font-family="'JetBrains Mono', monospace"
+      font-size="8"
+      font-weight="500"
+      letter-spacing="1.5"
+      fill="#00d4ff"
+      text-anchor="middle"
+    >zkEVM</text>
+  </g>
+
+  <!-- Bottom-right: version -->
+  <text
+    x="470" y="108"
+    font-family="'JetBrains Mono', monospace"
+    font-size="7"
+    fill="#1e3a50"
+    text-anchor="end"
+    letter-spacing="1"
+  >v1.0</text>
+
+  <!-- Border -->
+  <rect width="480" height="120" fill="none" stroke="#1e2d3d" stroke-width="1" rx="12"/>
+  <rect width="480" height="120" fill="none" stroke="#00d4ff" stroke-width="0.5" rx="12" opacity="0.15"/>
+</svg>
