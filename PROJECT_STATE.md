@@ -14,9 +14,10 @@ agents/
   verifier_agent.py      — verifyAndRelease(), rejectProof() slash
   bounty_engine.py       — full bounty race engine
   buyer_agent_x402.py    — COMPLETE x402 atomic loop (6 TXs end to end)
+  registry_agent.py      — on-chain agent registration + best-worker query
 core/
   composer_engine.py     — Claude Haiku → JSON SLA spec (Python class)
-  reputation.py          — on-chain event reads → trust scores
+  reputation.py          — real on-chain event reads
 demo/
   warroom.py             — Rich dashboard, live chain polling, 3 scenarios
   bounty_race.py         — 2-worker race, winner paid, loser slashed
@@ -28,6 +29,7 @@ dashboard/composer.html  — redesigned dark UI, wired to composer_server.py
 run_scenario_1.py        — honest worker scenario
 check_treasury.py        — reads protocol treasury balance
 heartbeat.html           — live agent trust page
+registry_snapshot.json   — persisted agent registry state
 ```
 
 ### Current Status
@@ -38,11 +40,12 @@ heartbeat.html           — live agent trust page
 - [x] Heartbeat page — CONFIRMED WORKING (Block #26,135,570)
 - [x] x402 atomic loop — CONFIRMED WORKING (6 TX hashes)
 - [x] Composer server — CONFIRMED WORKING (localhost:7402)
+- [x] Agent Registry — CONFIRMED WORKING (1 registry TX)
 - [x] main branch pushed to GitHub
-- [ ] Agent Registry — not yet built
 - [ ] README final version — not yet written
 - [ ] X thread — not yet posted
 - [ ] Video recorded — not yet done
+- [ ] Form submitted — not yet done
 
 ### All Confirmed Live TX Hashes (X Layer Testnet)
 Bounty Race:
@@ -60,6 +63,18 @@ x402 Atomic Loop:
 - submitProof        : fe78dd2afa1d28e5b702b2dd608ba2ef75cecff136261944158690d63d13942e
 - verifyAndRelease   : d9235160a3cf517c6d39d33a2ad01baedf3f6a3dc87618c3cdb00e5d54da190b
 
+Agent Registry:
+- Registration TX   : 2436d4facb021c9f2166c89784a723751ff9e19840afaa66f3cc33542912d77b
+
+TOTAL: 12 confirmed live TX hashes
+
+### Live Chain Data (last confirmed)
+- Block: #26,141,117+
+- Escrow Balance: 225.62 USDT
+- Protocol Treasury: accumulating (slashed funds confirmed)
+- Worker Balance: 1015.10 USDT
+- Buyer Balance: 749.42 USDT
+
 ### Architecture Notes for New Code
 - No contracts/ folder — ABI hardcoded inline in each agent
 - No Hardhat/Foundry — pure Python + web3.py only
@@ -68,6 +83,5 @@ x402 Atomic Loop:
 - MockUSDT: 6 decimals, 10 USDT = 10_000_000 units
 
 ### Next Phases
-Phase 5: Agent Registry (agents/registry_agent.py)
 Phase 6: README final + X thread (5 tweets) + video script (4 min)
 Phase 7: GitHub cleanup + Loom recording + form submission
