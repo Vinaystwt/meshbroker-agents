@@ -185,7 +185,7 @@ Multi-verifier consensus via decentralized oracle network, eliminating the singl
 
 Built for the OKX / X Layer Onchain OS AI Hackathon 2026
 
-[@vinaystwt](https://twitter.com/vinaystwt)
+[@vinaystwt](https://twitter.com/vinaystwt) — follow the build on X
 
 MeshBroker is the missing primitive that every agent-to-agent commerce protocol needs. X Layer is the only place it works at zero marginal cost.
 
