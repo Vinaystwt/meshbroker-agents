@@ -4,7 +4,7 @@ MeshBroker — Heartbeat Page Generator
 Run: python3 scripts/generate_heartbeat.py && open heartbeat.html
 """
 
-import os, json, time
+import os, json, time, base64
 from datetime import datetime, timezone
 from dotenv import load_dotenv
 from web3 import Web3
@@ -46,7 +46,7 @@ def fetch_chain_data():
         escrow     = usdt.functions.balanceOf(MESHBROKER_ADDRESS).call() / 1_000_000
         buyer_bal  = usdt.functions.balanceOf(BUYER_ADDRESS).call()  / 1_000_000
         worker_bal = usdt.functions.balanceOf(WORKER_ADDRESS).call() / 1_000_000
-        treasury   = 1.05  # known confirmed value — protocolTreasury selector varies
+        treasury   = 1.05
         try:
             raw = meshbroker.functions.protocolTreasury(VERIFIER_AGENT_ADDRESS).call()
             if raw > 0:
@@ -74,6 +74,17 @@ def load_registry():
             return json.load(f)
     except Exception:
         return {"agents": {}}
+
+def load_logo_svg():
+    logo_path = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+        "assets", "logo.svg"
+    )
+    try:
+        with open(logo_path, "r") as f:
+            return f.read()
+    except Exception:
+        return ""
 
 def tier(rep):
     if rep >= 75: return "GOLD"
@@ -139,13 +150,14 @@ def agent_card(agent):
 
 def generate():
     print("Fetching chain data...")
-    data    = fetch_chain_data()
-    reg     = load_registry()
-    ts      = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
-    agents  = sorted(reg.get("agents", {}).values(), key=lambda a: a.get("reputation", 0), reverse=True)
+    data     = fetch_chain_data()
+    reg      = load_registry()
+    logo_svg = load_logo_svg()
+    ts       = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+    agents   = sorted(reg.get("agents", {}).values(), key=lambda a: a.get("reputation", 0), reverse=True)
     n_agents = len(agents)
 
-    block_str    = f"#{data.get('block', 0):,}"      if data.get("connected") else "—"
+    block_str    = f"#{data.get('block', 0):,}"       if data.get("connected") else "—"
     escrow_str   = f"{data.get('escrow',   '—')} USDT"
     treasury_str = f"{data.get('treasury', '—')} USDT"
     buyer_str    = f"{data.get('buyer_bal','—')} USDT"
@@ -157,6 +169,10 @@ def generate():
 
     cards_html = "\n".join(agent_card(a) for a in agents) if agents else \
         '<p style="color:#1e3040;text-align:center;padding:48px;letter-spacing:.1em;font-size:12px;">NO AGENTS REGISTERED</p>'
+
+    # Inline logo — use SVG directly or fallback text logo
+    logo_html = f'<div class="banner-logo-svg">{logo_svg}</div>' if logo_svg else \
+        '<div class="banner-logo-text">Mesh<span>Broker</span></div>'
 
     html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -183,26 +199,60 @@ body{{
     linear-gradient(90deg,rgba(0,212,255,.02) 1px,transparent 1px);
   background-size:52px 52px;
 }}
+.page{{max-width:1280px;margin:0 auto;padding:0 36px 48px}}
 
-/* ── LAYOUT ── */
-.page{{max-width:1280px;margin:0 auto;padding:40px 36px}}
+/* ── GITHUB BANNER ── */
+.gh-banner{{
+  background:linear-gradient(135deg,rgba(0,212,255,.08),rgba(0,212,255,.03));
+  border-bottom:1px solid rgba(0,212,255,.15);
+  padding:12px 36px;margin:0 -36px 0;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+}}
+.gh-banner-left{{display:flex;align-items:center;gap:16px}}
+.banner-logo-svg svg{{height:40px;width:auto;display:block}}
+.banner-logo-text{{font-family:var(--sans);font-size:20px;font-weight:800;color:#fff}}
+.banner-logo-text span{{color:var(--cyan)}}
+.banner-tagline{{font-size:10px;letter-spacing:.14em;color:var(--dim);text-transform:uppercase}}
+.gh-banner-right{{display:flex;align-items:center;gap:16px}}
+.gh-link{{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 18px;border:1px solid rgba(0,212,255,.3);border-radius:7px;
+  background:rgba(0,212,255,.06);color:var(--cyan);text-decoration:none;
+  font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;
+  transition:all .2s;
+}}
+.gh-link:hover{{background:rgba(0,212,255,.14);box-shadow:0 0 16px rgba(0,212,255,.2)}}
+.gh-badge{{
+  font-size:10px;letter-spacing:.1em;color:var(--dim);
+  padding:6px 12px;border:1px solid var(--b2);border-radius:6px;
+  background:var(--bg2);
+}}
 
 /* ── HEADER ── */
-.hdr{{display:flex;align-items:center;justify-content:space-between;
-      margin-bottom:36px;padding-bottom:24px;border-bottom:1px solid var(--b1);flex-wrap:wrap;gap:16px}}
+.hdr{{
+  display:flex;align-items:center;justify-content:space-between;
+  margin:28px 0 32px;padding-bottom:22px;border-bottom:1px solid var(--b1);
+  flex-wrap:wrap;gap:16px;
+}}
 .logo{{display:flex;align-items:center;gap:14px}}
-.logo-box{{width:46px;height:46px;border:2px solid var(--cyan);border-radius:10px;
-           display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--cyan);
-           box-shadow:0 0 24px rgba(0,212,255,.25),inset 0 0 14px rgba(0,212,255,.06)}}
-.logo-name{{font-family:var(--sans);font-size:24px;font-weight:800;color:#fff;letter-spacing:-.5px}}
+.logo-box{{
+  width:44px;height:44px;border:2px solid var(--cyan);border-radius:10px;
+  display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--cyan);
+  box-shadow:0 0 20px rgba(0,212,255,.25),inset 0 0 12px rgba(0,212,255,.06);
+}}
+.logo-name{{font-family:var(--sans);font-size:22px;font-weight:800;color:#fff;letter-spacing:-.5px}}
 .logo-name b{{color:var(--cyan)}}
 .logo-sub{{font-size:9px;letter-spacing:.22em;color:var(--dim);text-transform:uppercase;margin-top:3px}}
-.hdr-right{{display:flex;align-items:center;gap:24px;flex-wrap:wrap}}
-.conn-badge{{display:flex;align-items:center;gap:9px;padding:8px 16px;
-             border:1px solid var(--b2);border-radius:8px;background:var(--bg2)}}
-.dot-pulse{{width:9px;height:9px;border-radius:50%;background:var(--green);
-            box-shadow:0 0 10px var(--green),0 0 20px rgba(0,255,157,.35);
-            animation:pulse 1.8s ease-in-out infinite}}
+.hdr-right{{display:flex;align-items:center;gap:20px;flex-wrap:wrap}}
+.conn-badge{{
+  display:flex;align-items:center;gap:9px;padding:8px 16px;
+  border:1px solid var(--b2);border-radius:8px;background:var(--bg2);
+}}
+.dot-pulse{{
+  width:9px;height:9px;border-radius:50%;background:var(--green);
+  box-shadow:0 0 10px var(--green),0 0 20px rgba(0,255,157,.35);
+  animation:pulse 1.8s ease-in-out infinite;
+}}
 .dot-pulse.dead{{background:var(--red);box-shadow:0 0 10px var(--red);animation:none}}
 @keyframes pulse{{
   0%,100%{{transform:scale(1);box-shadow:0 0 10px var(--green),0 0 20px rgba(0,255,157,.35)}}
@@ -213,15 +263,13 @@ body{{
 
 /* ── STATS BAND ── */
 .band{{
-  background:linear-gradient(135deg,rgba(0,212,255,.05) 0%,rgba(0,212,255,.01) 60%,transparent 100%);
+  background:linear-gradient(135deg,rgba(0,212,255,.05) 0%,rgba(0,212,255,.01) 60%,transparent);
   border:1px solid rgba(0,212,255,.14);border-radius:14px;
   padding:28px 32px;margin-bottom:36px;position:relative;overflow:hidden;
 }}
 .band::before{{content:'';position:absolute;top:0;left:0;right:0;height:1px;
-               background:linear-gradient(90deg,transparent,var(--cyan) 40%,var(--cyan) 60%,transparent);
-               opacity:.4}}
-.band-title{{font-size:10px;letter-spacing:.24em;color:var(--cyan);text-transform:uppercase;
-             font-weight:600;margin-bottom:22px}}
+               background:linear-gradient(90deg,transparent,var(--cyan) 40%,var(--cyan) 60%,transparent);opacity:.4}}
+.band-title{{font-size:10px;letter-spacing:.24em;color:var(--cyan);text-transform:uppercase;font-weight:600;margin-bottom:22px}}
 .stats-row{{display:grid;grid-template-columns:repeat(5,1fr);gap:20px}}
 @media(max-width:900px){{.stats-row{{grid-template-columns:repeat(3,1fr)}}}}
 @media(max-width:560px){{.stats-row{{grid-template-columns:repeat(2,1fr)}}}}
@@ -230,77 +278,84 @@ body{{
                background:linear-gradient(90deg,transparent,rgba(0,212,255,.25),transparent)}}
 .s-lbl{{font-size:8px;letter-spacing:.22em;color:var(--dim);text-transform:uppercase;margin-bottom:10px}}
 .s-val{{font-size:28px;font-weight:700;line-height:1;letter-spacing:-.5px}}
-.s-val.c{{color:var(--cyan)}}
-.s-val.g{{color:var(--green)}}
-.s-val.a{{color:var(--amber)}}
-.s-val.w{{color:#ffffff}}
+.s-val.c{{color:var(--cyan)}}.s-val.g{{color:var(--green)}}.s-val.a{{color:var(--amber)}}.s-val.w{{color:#fff}}
 .s-sub{{font-size:9px;color:var(--dim);margin-top:6px;letter-spacing:.06em}}
 
-/* ── SECTION DIVIDER ── */
+/* ── DIVIDER ── */
 .divider{{display:flex;align-items:center;gap:14px;margin:36px 0 20px}}
 .div-label{{font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);white-space:nowrap}}
 .div-line{{flex:1;height:1px;background:var(--b1)}}
 .div-count{{font-size:9px;letter-spacing:.18em;color:var(--dim);white-space:nowrap}}
 
 /* ── AGENT CARDS ── */
-.cards-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:20px;margin-bottom:0}}
+.cards-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:20px}}
 .card{{border:1px solid;border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .2s}}
 .card:hover{{transform:translateY(-3px)}}
 .card::before{{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:currentColor;opacity:.25}}
 .card-top{{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}}
 .card-top-left{{display:flex;align-items:center;gap:10px}}
-.tier-tag{{font-size:9px;font-weight:700;letter-spacing:.16em;padding:3px 9px;
-           border:1px solid;border-radius:4px}}
-.card-name{{font-family:var(--sans);font-size:17px;font-weight:800;color:#ffffff}}
+.tier-tag{{font-size:9px;font-weight:700;letter-spacing:.16em;padding:3px 9px;border:1px solid;border-radius:4px}}
+.card-name{{font-family:var(--sans);font-size:17px;font-weight:800;color:#fff}}
 .card-active{{display:flex;align-items:center;gap:7px;font-size:9px;letter-spacing:.16em;color:var(--green)}}
-.active-dot{{width:7px;height:7px;border-radius:50%;background:var(--green);
-             box-shadow:0 0 8px var(--green);animation:pulse 2s ease-in-out infinite}}
+.active-dot{{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s ease-in-out infinite}}
 .card-addr{{font-size:10px;color:var(--dim);letter-spacing:.05em;margin-bottom:3px}}
 .card-spec{{font-size:9px;letter-spacing:.2em;color:var(--dim);text-transform:uppercase;margin-bottom:18px}}
-
-/* rep bar */
 .rep-wrap{{margin-bottom:18px}}
 .rep-top{{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}}
 .rep-lbl{{font-size:8px;letter-spacing:.2em;color:var(--dim);text-transform:uppercase}}
 .rep-num{{font-size:18px;font-weight:700}}
 .rep-track{{height:5px;background:rgba(0,0,0,.4);border-radius:999px;overflow:hidden;border:1px solid var(--b2)}}
 .rep-fill{{height:100%;border-radius:999px;transition:width .8s ease}}
-
-/* card grid stats */
 .card-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}}
 .cg-item{{background:rgba(0,0,0,.25);border:1px solid var(--b1);border-radius:8px;padding:10px 8px;text-align:center}}
 .cg-val{{font-size:20px;font-weight:700;color:#fff;margin-bottom:3px;line-height:1}}
 .cg-lbl{{font-size:7px;letter-spacing:.14em;color:var(--dim);text-transform:uppercase}}
-
-.card-tx{{font-size:9px;color:var(--dim);text-decoration:none;letter-spacing:.06em;
-          display:block;transition:color .15s;padding-top:4px}}
+.card-tx{{font-size:9px;color:var(--dim);text-decoration:none;letter-spacing:.06em;display:block;transition:color .15s;padding-top:4px}}
 .card-tx:hover{{color:var(--cyan)}}
 
 /* ── TX FEED ── */
 .tx-panel{{background:var(--bg2);border:1px solid var(--b1);border-radius:12px;overflow:hidden}}
-.tx-row{{display:grid;grid-template-columns:200px 1fr auto;align-items:center;gap:16px;
-         padding:12px 20px;border-bottom:1px solid var(--b1);transition:background .15s}}
+.tx-row{{
+  display:grid;grid-template-columns:200px 1fr auto;
+  align-items:center;gap:16px;padding:12px 20px;
+  border-bottom:1px solid var(--b1);transition:background .15s;
+}}
 .tx-row:last-child{{border-bottom:none}}
 .tx-row:hover{{background:rgba(0,212,255,.02)}}
 .tx-lbl{{font-size:11px;color:var(--dim);letter-spacing:.06em}}
 .tx-dot-wrap{{display:flex;align-items:center;gap:8px}}
-.tx-dot{{width:6px;height:6px;border-radius:50%;background:var(--green);
-         box-shadow:0 0 5px var(--green);flex-shrink:0}}
-.tx-line{{flex:1;height:1px;background:linear-gradient(90deg,var(--green)44,transparent);opacity:.3}}
+.tx-dot{{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 5px var(--green);flex-shrink:0}}
+.tx-line{{flex:1;height:1px;background:linear-gradient(90deg,rgba(0,255,157,.3),transparent);opacity:.3}}
 .tx-hash{{font-size:11px;text-align:right}}
 .tx-hash a{{color:var(--cyan);text-decoration:none;letter-spacing:.04em}}
 .tx-hash a:hover{{text-decoration:underline}}
 
 /* ── FOOTER ── */
-.footer{{margin-top:40px;padding-top:20px;border-top:1px solid var(--b1);
-         display:flex;justify-content:space-between;align-items:center;
-         font-size:9px;color:var(--mute);flex-wrap:wrap;gap:8px;letter-spacing:.1em}}
+.footer{{
+  margin-top:40px;padding-top:20px;border-top:1px solid var(--b1);
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:9px;color:var(--mute);flex-wrap:wrap;gap:8px;letter-spacing:.1em;
+}}
 .footer a{{color:var(--dim);text-decoration:none}}
 .footer a:hover{{color:var(--cyan)}}
 </style>
 </head>
 <body>
 <div class="page">
+
+<!-- GITHUB BANNER WITH INLINE LOGO -->
+<div class="gh-banner">
+  <div class="gh-banner-left">
+    {logo_html}
+    <div class="banner-tagline">Agent Trust Heartbeat &nbsp;·&nbsp; X Layer Testnet</div>
+  </div>
+  <div class="gh-banner-right">
+    <div class="gh-badge">OKX / X Layer Onchain OS AI Hackathon 2026</div>
+    <a href="https://github.com/Vinaystwt/meshbroker-agents" target="_blank" class="gh-link">
+      ↗ &nbsp;GitHub Repo
+    </a>
+  </div>
+</div>
 
 <!-- HEADER -->
 <div class="hdr">
@@ -349,7 +404,7 @@ body{{
   </div>
 </div>
 
-<!-- AGENT CARDS -->
+<!-- AGENTS -->
 <div class="divider">
   <div class="div-label">Registered Agents</div>
   <div class="div-line"></div>
@@ -381,7 +436,7 @@ body{{
 </div>
 
 <div class="footer">
-  <span>MeshBroker &nbsp;·&nbsp; Trustless SLA Enforcement &nbsp;·&nbsp; X Layer Testnet (zkEVM) &nbsp;·&nbsp; OKX Hackathon 2026</span>
+  <span>MeshBroker &nbsp;·&nbsp; Trustless SLA Enforcement &nbsp;·&nbsp; X Layer Testnet (zkEVM) &nbsp;·&nbsp; OKX / X Layer Onchain OS AI Hackathon 2026</span>
   <span>
     <a href="https://github.com/Vinaystwt/meshbroker-agents" target="_blank">GitHub</a>
     &nbsp;·&nbsp;

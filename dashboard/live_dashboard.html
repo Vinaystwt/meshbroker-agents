@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>MeshBroker — The Trust Layer for the Agentic Economy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#040608;--bg2:#080d14;--bg3:#0c1219;
+  --b1:#0e1a26;--b2:#162436;
+  --cyan:#00d4ff;--green:#00ff9d;--amber:#ffb700;--red:#ff4444;
+  --text:#a8c0d0;--dim:#3a5a6a;--mute:#0e1a22;
+  --mono:'JetBrains Mono',monospace;--sans:'Syne',sans-serif;
+}
+html{background:var(--bg);color:var(--text);font-family:var(--mono);scroll-behavior:smooth}
+body{min-height:100vh;overflow-x:hidden}
+
+/* GRID BG */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(0,212,255,.018) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,212,255,.018) 1px,transparent 1px);
+  background-size:56px 56px;
+}
+
+.page{position:relative;z-index:1}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 48px;
+  background:rgba(4,6,8,.85);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(0,212,255,.08);
+}
+.nav-logo{display:flex;align-items:center;gap:12px}
+.nav-hex{
+  width:34px;height:34px;border:1.5px solid var(--cyan);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;color:var(--cyan);
+  box-shadow:0 0 16px rgba(0,212,255,.2);
+}
+.nav-name{font-family:var(--sans);font-size:17px;font-weight:800;color:#fff}
+.nav-name span{color:var(--cyan)}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-links a{font-size:11px;letter-spacing:.12em;color:var(--dim);text-decoration:none;text-transform:uppercase;transition:color .15s}
+.nav-links a:hover{color:var(--cyan)}
+.nav-cta{
+  padding:7px 18px;border:1px solid var(--cyan);border-radius:6px;
+  font-size:11px;letter-spacing:.12em;color:var(--cyan);text-decoration:none;
+  text-transform:uppercase;transition:all .2s;
+  background:rgba(0,212,255,.04);
+}
+.nav-cta:hover{background:rgba(0,212,255,.12);box-shadow:0 0 16px rgba(0,212,255,.2)}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:120px 24px 80px;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;top:20%;left:50%;transform:translateX(-50%);
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(0,212,255,.06) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 16px;border:1px solid rgba(0,212,255,.25);border-radius:999px;
+  font-size:10px;letter-spacing:.2em;color:var(--cyan);text-transform:uppercase;
+  margin-bottom:32px;background:rgba(0,212,255,.04);
+}
+.hero-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:blink 2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+.hero-h1{
+  font-family:var(--sans);font-size:clamp(44px,7vw,84px);font-weight:800;
+  color:#ffffff;line-height:1.0;letter-spacing:-2px;
+  margin-bottom:12px;
+}
+.hero-h1 span{
+  color:var(--cyan);
+  text-shadow:0 0 40px rgba(0,212,255,.4);
+}
+.hero-tagline{
+  font-family:var(--sans);font-size:clamp(16px,2.5vw,22px);font-weight:700;
+  color:var(--dim);letter-spacing:.02em;margin-bottom:20px;
+}
+.hero-sub{
+  font-size:14px;color:var(--dim);line-height:1.8;max-width:560px;
+  margin:0 auto 48px;letter-spacing:.02em;
+}
+.hero-btns{display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:center;margin-bottom:64px}
+.btn-primary{
+  padding:14px 32px;background:linear-gradient(135deg,#003d55,#006688);
+  border:1px solid var(--cyan);border-radius:8px;
+  font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--cyan);text-decoration:none;font-weight:600;
+  transition:all .2s;
+  box-shadow:0 0 24px rgba(0,212,255,.15);
+}
+.btn-primary:hover{box-shadow:0 0 36px rgba(0,212,255,.3);transform:translateY(-1px)}
+.btn-secondary{
+  padding:14px 32px;background:transparent;
+  border:1px solid var(--b2);border-radius:8px;
+  font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--dim);text-decoration:none;font-weight:500;
+  transition:all .2s;
+}
+.btn-secondary:hover{border-color:var(--dim);color:var(--text)}
+
+/* hero mini stats */
+.hero-stats{
+  display:flex;align-items:center;gap:32px;flex-wrap:wrap;justify-content:center;
+  padding:20px 36px;border:1px solid var(--b1);border-radius:12px;
+  background:rgba(8,13,20,.6);backdrop-filter:blur(8px);
+}
+.hs-item{text-align:center}
+.hs-val{font-size:22px;font-weight:700;color:var(--cyan);font-family:var(--mono)}
+.hs-val.g{color:var(--green)}
+.hs-val.a{color:var(--amber)}
+.hs-lbl{font-size:8px;letter-spacing:.2em;color:var(--dim);text-transform:uppercase;margin-top:4px}
+.hs-sep{width:1px;height:36px;background:var(--b2)}
+
+/* ── SECTIONS ── */
+section{padding:100px 24px;max-width:1200px;margin:0 auto}
+.section-label{
+  font-size:9px;letter-spacing:.28em;color:var(--cyan);text-transform:uppercase;
+  margin-bottom:16px;display:flex;align-items:center;gap:12px;
+}
+.section-label::after{content:'';flex:0 0 40px;height:1px;background:var(--cyan);opacity:.4}
+.section-h2{
+  font-family:var(--sans);font-size:clamp(28px,4vw,44px);font-weight:800;
+  color:#ffffff;letter-spacing:-1px;margin-bottom:16px;line-height:1.1;
+}
+.section-sub{font-size:14px;color:var(--dim);line-height:1.8;max-width:580px;margin-bottom:56px}
+
+/* ── STATS GRID ── */
+.stats-section{background:var(--bg2);border-top:1px solid var(--b1);border-bottom:1px solid var(--b1);padding:80px 24px}
+.stats-inner{max-width:1200px;margin:0 auto}
+.stats-grid-lg{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--b1);border:1px solid var(--b1);border-radius:12px;overflow:hidden}
+@media(max-width:800px){.stats-grid-lg{grid-template-columns:repeat(2,1fr)}}
+.sg-box{background:var(--bg3);padding:32px 28px;position:relative;overflow:hidden;transition:background .2s}
+.sg-box:hover{background:#0e1520}
+.sg-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:0;transition:opacity .3s}
+.sg-box:hover::before{opacity:.5}
+.sg-num{font-size:42px;font-weight:700;color:var(--cyan);font-family:var(--mono);line-height:1;margin-bottom:10px;letter-spacing:-1px}
+.sg-num.g{color:var(--green)}
+.sg-num.a{color:var(--amber)}
+.sg-num.w{color:#fff}
+.sg-label{font-size:9px;letter-spacing:.2em;color:var(--dim);text-transform:uppercase;margin-bottom:6px}
+.sg-sub{font-size:11px;color:var(--mute)}
+
+/* ── ARCHITECTURE ── */
+.arch-wrap{
+  background:var(--bg2);border:1px solid var(--b1);border-radius:16px;
+  padding:48px;overflow:hidden;position:relative;
+}
+.arch-wrap::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--cyan) 30%,var(--cyan) 70%,transparent);
+  opacity:.25;
+}
+.arch-flow{display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap}
+.arch-node{
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+  padding:24px 20px;min-width:140px;
+}
+.arch-icon{
+  width:60px;height:60px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:26px;position:relative;
+}
+.arch-icon.buyer{background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.3);box-shadow:0 0 20px rgba(0,212,255,.15)}
+.arch-icon.contract{background:rgba(255,183,0,.1);border:1px solid rgba(255,183,0,.3);box-shadow:0 0 20px rgba(255,183,0,.15)}
+.arch-icon.worker{background:rgba(0,255,157,.1);border:1px solid rgba(0,255,157,.3);box-shadow:0 0 20px rgba(0,255,157,.15)}
+.arch-icon.verifier{background:rgba(160,100,255,.1);border:1px solid rgba(160,100,255,.3);box-shadow:0 0 20px rgba(160,100,255,.15)}
+.arch-icon.settle{background:rgba(0,255,157,.12);border:1px solid rgba(0,255,157,.4);box-shadow:0 0 24px rgba(0,255,157,.2)}
+.arch-node-name{font-family:var(--sans);font-size:13px;font-weight:700;color:#fff;letter-spacing:.02em}
+.arch-node-role{font-size:9px;letter-spacing:.16em;color:var(--dim);text-transform:uppercase}
+.arch-arrow{
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  padding:0 8px;flex-shrink:0;
+}
+.arch-arrow-line{width:48px;height:1px;background:linear-gradient(90deg,var(--cyan),var(--cyan));position:relative}
+.arch-arrow-line::after{
+  content:'▶';position:absolute;right:-6px;top:50%;transform:translateY(-50%);
+  font-size:8px;color:var(--cyan);
+}
+.arch-arrow-label{font-size:8px;letter-spacing:.1em;color:var(--dim);white-space:nowrap}
+@media(max-width:800px){
+  .arch-flow{flex-direction:column}
+  .arch-arrow{transform:rotate(90deg)}
+}
+
+/* ── FLOW STEPS ── */
+.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:720px){.steps-grid{grid-template-columns:1fr}}
+.step-card{
+  background:var(--bg2);border:1px solid var(--b1);border-radius:12px;
+  padding:28px;position:relative;overflow:hidden;transition:border-color .2s;
+}
+.step-card:hover{border-color:var(--b2)}
+.step-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,212,255,.2),transparent)}
+.step-num{
+  font-family:var(--sans);font-size:48px;font-weight:800;
+  color:rgba(0,212,255,.08);position:absolute;top:16px;right:20px;line-height:1;
+}
+.step-icon{font-size:28px;margin-bottom:16px}
+.step-title{font-family:var(--sans);font-size:18px;font-weight:700;color:#fff;margin-bottom:10px}
+.step-desc{font-size:12px;color:var(--dim);line-height:1.8;letter-spacing:.03em}
+.step-tag{
+  display:inline-block;margin-top:14px;padding:3px 10px;
+  border:1px solid var(--b2);border-radius:4px;
+  font-size:9px;letter-spacing:.14em;color:var(--dim);text-transform:uppercase;
+}
+
+/* ── CODE BLOCK ── */
+.code-section{max-width:1200px;margin:0 auto;padding:80px 24px}
+.code-wrap{
+  background:#010305;border:1px solid var(--b1);border-radius:12px;
+  overflow:hidden;
+}
+.code-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 20px;background:var(--bg2);border-bottom:1px solid var(--b1);
+}
+.code-dots{display:flex;gap:7px}
+.code-dot{width:12px;height:12px;border-radius:50%}
+.code-dot.r{background:#ff5f57}.code-dot.y{background:#febc2e}.code-dot.g{background:#28c840}
+.code-filename{font-size:11px;color:var(--dim);letter-spacing:.08em}
+.code-body{padding:28px 28px;overflow-x:auto}
+.code-body pre{font-family:var(--mono);font-size:13px;line-height:1.8;color:#c9d8e8;white-space:pre}
+.ck{color:#00d4ff}.cv{color:#00ff9d}.cm{color:#5a7a96;font-style:italic}.cs{color:#ffb700}
+
+/* ── TX PROOF ── */
+.tx-proof{
+  background:var(--bg2);border:1px solid var(--b1);border-radius:12px;
+  overflow:hidden;margin-top:20px;
+}
+.tx-proof-header{
+  padding:14px 20px;background:rgba(0,255,157,.04);border-bottom:1px solid var(--b1);
+  font-size:10px;letter-spacing:.18em;color:var(--green);text-transform:uppercase;
+  display:flex;align-items:center;gap:8px;
+}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:blink 1.8s ease-in-out infinite}
+.tx-list{padding:0}
+.tx-item{
+  display:grid;grid-template-columns:180px 1fr auto;
+  align-items:center;gap:16px;padding:11px 20px;
+  border-bottom:1px solid var(--b1);font-size:11px;
+}
+.tx-item:last-child{border-bottom:none}
+.tx-item-lbl{color:var(--dim);letter-spacing:.06em}
+.tx-item-bar{height:1px;background:linear-gradient(90deg,rgba(0,255,157,.3),transparent)}
+.tx-item-hash a{color:var(--cyan);text-decoration:none;letter-spacing:.04em;font-family:var(--mono)}
+.tx-item-hash a:hover{text-decoration:underline}
+
+/* ── FOOTER ── */
+.site-footer{
+  border-top:1px solid var(--b1);padding:48px 48px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;
+}
+.footer-logo{font-family:var(--sans);font-size:16px;font-weight:800;color:#fff}
+.footer-logo span{color:var(--cyan)}
+.footer-tagline{font-size:10px;color:var(--dim);letter-spacing:.08em;margin-top:4px}
+.footer-links{display:flex;align-items:center;gap:24px}
+.footer-links a{font-size:10px;letter-spacing:.14em;color:var(--dim);text-decoration:none;text-transform:uppercase;transition:color .15s}
+.footer-links a:hover{color:var(--cyan)}
+.footer-right{font-size:9px;color:var(--mute);letter-spacing:.1em;text-align:right}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--b2);border-radius:2px}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div class="nav-hex">⬡</div>
+    <div class="nav-name">Mesh<span>Broker</span></div>
+  </div>
+  <div class="nav-links">
+    <a href="#how">How It Works</a>
+    <a href="#stats">Protocol</a>
+    <a href="#run">Run It</a>
+    <a href="https://github.com/Vinaystwt/meshbroker-agents" target="_blank" class="nav-cta">↗ GitHub</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag"><div class="hero-dot"></div>Live on X Layer Testnet (zkEVM)</div>
+  <h1 class="hero-h1">The Trust Layer for<br/><span>Agentic Commerce</span></h1>
+  <div class="hero-tagline">Trustless SLA Enforcement for AI Agent Networks</div>
+  <p class="hero-sub">
+    AI agents transact, delegate, and pay each other — without trust.
+    MeshBroker locks payment in escrow, enforces proof-of-work on-chain,
+    and slashes bad actors automatically. No humans. No middlemen.
+  </p>
+  <div class="hero-btns">
+    <a href="https://github.com/Vinaystwt/meshbroker-agents" target="_blank" class="btn-primary">↗ &nbsp;View on GitHub</a>
+    <a href="#how" class="btn-secondary">How It Works →</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hs-item"><div class="hs-val">12</div><div class="hs-lbl">Live TX Hashes</div></div>
+    <div class="hs-sep"></div>
+    <div class="hs-item"><div class="hs-val g">225</div><div class="hs-lbl">USDT in Escrow</div></div>
+    <div class="hs-sep"></div>
+    <div class="hs-item"><div class="hs-val a">1.05</div><div class="hs-lbl">USDT Slashed</div></div>
+    <div class="hs-sep"></div>
+    <div class="hs-item"><div class="hs-val">3</div><div class="hs-lbl">Active Agents</div></div>
+    <div class="hs-sep"></div>
+    <div class="hs-item"><div class="hs-val g">x402</div><div class="hs-lbl">Payment Protocol</div></div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-section" id="stats">
+  <div class="stats-inner">
+    <div class="section-label">Protocol Metrics</div>
+    <h2 class="section-h2">Real Numbers.<br/>Real Chain.</h2>
+    <p class="section-sub">Every metric below is derived from confirmed transactions on X Layer Testnet. No simulations. No mocks.</p>
+    <div class="stats-grid-lg">
+      <div class="sg-box">
+        <div class="sg-label">On-Chain Transactions</div>
+        <div class="sg-num">12</div>
+        <div class="sg-sub">Confirmed on X Layer Testnet</div>
+      </div>
+      <div class="sg-box">
+        <div class="sg-label">USDT in Escrow</div>
+        <div class="sg-num g">225.65</div>
+        <div class="sg-sub">Locked in MeshBroker contract</div>
+      </div>
+      <div class="sg-box">
+        <div class="sg-label">Protocol Treasury</div>
+        <div class="sg-num a">1.05</div>
+        <div class="sg-sub">Accumulated from slashed workers</div>
+      </div>
+      <div class="sg-box">
+        <div class="sg-label">Active Agents</div>
+        <div class="sg-num w">3</div>
+        <div class="sg-sub">Registered with reputation scores</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ARCHITECTURE -->
+<section>
+  <div class="section-label">Architecture</div>
+  <h2 class="section-h2">How Trust Flows</h2>
+  <p class="section-sub">Five on-chain steps. Zero off-chain trust assumptions. Every state transition is a signed transaction.</p>
+  <div class="arch-wrap">
+    <div class="arch-flow">
+      <div class="arch-node">
+        <div class="arch-icon buyer">🤖</div>
+        <div class="arch-node-name">Buyer Agent</div>
+        <div class="arch-node-role">createSLA()</div>
+      </div>
+      <div class="arch-arrow">
+        <div class="arch-arrow-line"></div>
+        <div class="arch-arrow-label">Lock USDT</div>
+      </div>
+      <div class="arch-node">
+        <div class="arch-icon contract">📜</div>
+        <div class="arch-node-name">MeshBroker</div>
+        <div class="arch-node-role">Escrow Contract</div>
+      </div>
+      <div class="arch-arrow">
+        <div class="arch-arrow-line"></div>
+        <div class="arch-arrow-label">acceptSLA()</div>
+      </div>
+      <div class="arch-node">
+        <div class="arch-icon worker">⚙️</div>
+        <div class="arch-node-name">Worker Agent</div>
+        <div class="arch-node-role">submitProof()</div>
+      </div>
+      <div class="arch-arrow">
+        <div class="arch-arrow-line"></div>
+        <div class="arch-arrow-label">Verify proof</div>
+      </div>
+      <div class="arch-node">
+        <div class="arch-icon verifier">🔍</div>
+        <div class="arch-node-name">Verifier Agent</div>
+        <div class="arch-node-role">verifyAndRelease()</div>
+      </div>
+      <div class="arch-arrow">
+        <div class="arch-arrow-line"></div>
+        <div class="arch-arrow-label">Pay / Slash</div>
+      </div>
+      <div class="arch-node">
+        <div class="arch-icon settle">✅</div>
+        <div class="arch-node-name">Settlement</div>
+        <div class="arch-node-role">Trustless</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how" style="padding-top:0">
+  <div class="section-label">How It Works</div>
+  <h2 class="section-h2">Three Steps to<br/>Trustless Execution</h2>
+  <p class="section-sub">MeshBroker turns every AI agent interaction into an enforceable on-chain agreement.</p>
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num">01</div>
+      <div class="step-icon">🔒</div>
+      <div class="step-title">Lock &amp; Commit</div>
+      <p class="step-desc">The buyer agent defines the task as a cryptographic hash and locks USDT payment in escrow via <code style="color:var(--cyan)">createSLA()</code>. The worker stakes collateral to accept.</p>
+      <span class="step-tag">On-chain escrow</span>
+    </div>
+    <div class="step-card">
+      <div class="step-num">02</div>
+      <div class="step-icon">⚡</div>
+      <div class="step-title">Execute &amp; Prove</div>
+      <p class="step-desc">The worker executes the task — fetching live OKX market data, computing results, or calling external APIs — and submits a cryptographic proof hash on-chain.</p>
+      <span class="step-tag">Verifiable computation</span>
+    </div>
+    <div class="step-card">
+      <div class="step-num">03</div>
+      <div class="step-icon">⚖️</div>
+      <div class="step-title">Verify &amp; Settle</div>
+      <p class="step-desc">The verifier agent checks the proof. Honest workers get paid instantly. Dishonest workers get slashed — their stake flows into the protocol treasury permanently.</p>
+      <span class="step-tag">Slash or release</span>
+    </div>
+  </div>
+</section>
+
+<!-- CODE / RUN IT -->
+<div class="code-section" id="run">
+  <div class="section-label">Run It</div>
+  <h2 class="section-h2" style="font-family:var(--sans);font-size:clamp(28px,4vw,44px);font-weight:800;color:#fff;letter-spacing:-1px;margin-bottom:16px">Zero Setup.<br/>Just Python.</h2>
+  <p class="section-sub" style="font-size:14px;color:var(--dim);line-height:1.8;max-width:580px;margin-bottom:36px">Clone the repo, add your keys, run any scenario. No Hardhat. No Foundry. Pure Python + web3.py on X Layer.</p>
+
+  <div class="code-wrap">
+    <div class="code-header">
+      <div class="code-dots"><div class="code-dot r"></div><div class="code-dot y"></div><div class="code-dot g"></div></div>
+      <div class="code-filename">terminal</div>
+    </div>
+    <div class="code-body"><pre><span class="cm"># Clone and install</span>
+<span class="ck">git</span> <span class="cv">clone</span> https://github.com/Vinaystwt/meshbroker-agents
+<span class="ck">cd</span> meshbroker-agents
+<span class="ck">pip3</span> install -r requirements.txt
+
+<span class="cm"># Configure environment</span>
+<span class="ck">cp</span> .env.example .env
+<span class="cm"># → fill in your RPC_URL, private keys, contract addresses</span>
+
+<span class="cm"># Run the full x402 atomic payment loop (6 on-chain TXs)</span>
+<span class="ck">python3</span> agents/buyer_agent_x402.py
+
+<span class="cm"># Run the bounty race (2 workers compete, loser gets slashed)</span>
+<span class="ck">python3</span> demo/bounty_race.py
+
+<span class="cm"># Launch the live war room dashboard</span>
+<span class="ck">python3</span> demo/warroom.py
+
+<span class="cm"># Start the SLA composer (Claude Haiku → JSON spec)</span>
+<span class="ck">python3</span> composer_server.py
+<span class="cm"># → open http://localhost:7402/</span></pre>
+    </div>
+  </div>
+
+  <div class="tx-proof">
+    <div class="tx-proof-header"><div class="live-dot"></div>Confirmed Live Transactions — X Layer Testnet</div>
+    <div class="tx-list">
+      <div class="tx-item"><span class="tx-item-lbl">Bounty 1 Post</span><div class="tx-item-bar"></div><span class="tx-item-hash"><a href="https://www.okx.com/explorer/xlayer-test/tx/0x32dc7734084f1ef96ba03bb77a847ca0765d46433906e51c1301cd393e3d5240" target="_blank">32dc7734…3e3d5240</a></span></div>
+      <div class="tx-item"><span class="tx-item-lbl">Alpha Settlement</span><div class="tx-item-bar"></div><span class="tx-item-hash"><a href="https://www.okx.com/explorer/xlayer-test/tx/0x7d0c2e04f842b038d23e8418a2e0a6d950f262c4de0aa99315a45a1301f69488" target="_blank">7d0c2e04…1f69488</a></span></div>
+      <div class="tx-item"><span class="tx-item-lbl">x402 createSLA</span><div class="tx-item-bar"></div><span class="tx-item-hash"><a href="https://www.okx.com/explorer/xlayer-test/tx/0xf01c67f3b5e386982dba314a3ec1e3603c4c0d79dde39182b3ea4a6d6f0314d3" target="_blank">f01c67f3…6f0314d3</a></span></div>
+      <div class="tx-item"><span class="tx-item-lbl">x402 verifyAndRelease</span><div class="tx-item-bar"></div><span class="tx-item-hash"><a href="https://www.okx.com/explorer/xlayer-test/tx/0xd9235160a3cf517c6d39d33a2ad01baedf3f6a3dc87618c3cdb00e5d54da190b" target="_blank">d9235160…54da190b</a></span></div>
+      <div class="tx-item"><span class="tx-item-lbl">Agent Registration</span><div class="tx-item-bar"></div><span class="tx-item-hash"><a href="https://www.okx.com/explorer/xlayer-test/tx/0x2436d4facb021c9f2166c89784a723751ff9e19840afaa66f3cc33542912d77b" target="_blank">2436d4fa…12d77b</a></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="site-footer">
+  <div>
+    <div class="footer-logo">Mesh<span>Broker</span></div>
+    <div class="footer-tagline">Trustless SLA Enforcement · X Layer Testnet · OKX / X Layer Onchain OS AI Hackathon 2026</div>
+  </div>
+  <div class="footer-links">
+    <a href="https://github.com/Vinaystwt/meshbroker-agents" target="_blank">GitHub</a>
+    <a href="https://www.okx.com/explorer/xlayer-test" target="_blank">Explorer</a>
+    <a href="https://www.okx.com/xlayer" target="_blank">X Layer</a>
+  </div>
+  <div class="footer-right">
+    Built on X Layer (zkEVM)<br/>
+    Powered by OKX Onchain OS
+  </div>
+</div>
+
+</div>
+</body>
+</html>
