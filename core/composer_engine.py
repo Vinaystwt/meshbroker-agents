@@ -20,7 +20,7 @@ class SLAComposer:
         }
         
         data = {
-            "model": "claude-3-haiku-20240307",
+            "model": "claude-haiku-4-5-20251001",
             "max_tokens": 512,
             "messages": [
                 {"role": "user", "content": f"Convert this into a JSON SLA spec: {user_prompt}. Return ONLY JSON with fields: title, description, reward_usdt, and success_criteria."}
