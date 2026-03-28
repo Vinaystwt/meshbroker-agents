@@ -116,10 +116,40 @@ footer a:hover{color:var(--cyan)}
 
 <header>
   <div class="logo">
-    <div class="logo-mark"></div>
-    <div>
-      <div class="logo-text">Mesh<span>Broker</span></div>
-      <div class="logo-sub">SLA Composer · Phase 4.5</div>
+    <div style="display:flex;align-items:center;gap:16px;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 120" width="200" height="40">
+  <rect width="200" height="40" fill="#000000"/>
+
+  <!-- 3x3 dot grid icon, origin at (32, 36) with 14px spacing -->
+  <!-- Row 1: dots at (32,36) (46,36) (60,36) -->
+  <!-- Row 2: dots at (32,50) (46,50) (60,50) -->
+  <!-- Row 3: dots at (32,64) (46,64) (60,64) -->
+
+  <!-- white 30% opacity dots -->
+  <circle cx="32" cy="36" r="3" fill="#FFFFFF" fill-opacity="0.3"/>
+  <circle cx="60" cy="36" r="3" fill="#FFFFFF" fill-opacity="0.3"/>
+  <circle cx="32" cy="50" r="3" fill="#FFFFFF" fill-opacity="0.3"/>
+  <circle cx="60" cy="50" r="3" fill="#FFFFFF" fill-opacity="0.3"/>
+  <circle cx="32" cy="64" r="3" fill="#FFFFFF" fill-opacity="0.3"/>
+  <circle cx="60" cy="64" r="3" fill="#FFFFFF" fill-opacity="0.3"/>
+
+  <!-- #00d4ff accent dots: center + top-right + bottom-left diagonals -->
+  <circle cx="46" cy="50" r="3" fill="#00d4ff"/>
+  <circle cx="60" cy="36" r="3" fill="#00d4ff"/>
+  <circle cx="32" cy="64" r="3" fill="#00d4ff"/>
+
+  <!-- Wordmark -->
+  <text
+    x="88"
+    y="67"
+    font-family="'Helvetica Neue','Arial',sans-serif"
+    font-size="42"
+    font-weight="600"
+    letter-spacing="0.15em"
+    fill="#FFFFFF"
+  >MESHBROKER</text>
+</svg>
+      <div class="logo-sub" style="font-size:9px;letter-spacing:.18em;color:var(--text-dim);text-transform:uppercase;">SLA Composer</div>
     </div>
   </div>
   <div class="chain-badge"><div class="pulse"></div><span>X Layer Testnet</span></div>

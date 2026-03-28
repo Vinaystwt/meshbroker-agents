@@ -19,7 +19,7 @@ from web3 import Web3
 load_dotenv()
 
 PORT                   = 7402
-ANTHROPIC_API_KEY      = os.getenv("ANTHROPIC_API_KEY")
+# ANTHROPIC_API_KEY read fresh per-request inside call_haiku()
 RPC_URL                = os.getenv("RPC_URL")
 MESHBROKER_ADDRESS     = Web3.to_checksum_address(os.getenv("MESHBROKER_ADDRESS"))
 USDT_ADDRESS           = Web3.to_checksum_address(os.getenv("USDT_ADDRESS"))
@@ -67,10 +67,13 @@ Rules:
 - Output ONLY the JSON object, nothing else"""
 
 def call_haiku(user_input: str) -> dict:
+    api_key = os.getenv("ANTHROPIC_API_KEY")
+    if not api_key:
+        raise RuntimeError("ANTHROPIC_API_KEY not set in .env")
     resp = requests.post(
         "https://api.anthropic.com/v1/messages",
         headers={
-            "x-api-key":         ANTHROPIC_API_KEY,
+            "x-api-key":         api_key,
             "anthropic-version": "2023-06-01",
             "content-type":      "application/json",
         },

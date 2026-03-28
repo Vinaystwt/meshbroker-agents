@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23000'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%2300d4ff'/%3E%3Ccircle cx='9' cy='9' r='2.5' fill='%23fff' fill-opacity='.3'/%3E%3Ccircle cx='23' cy='9' r='2.5' fill='%2300d4ff'/%3E%3Ccircle cx='9' cy='23' r='2.5' fill='%2300d4ff'/%3E%3Ccircle cx='23' cy='23' r='2.5' fill='%23fff' fill-opacity='.3'/%3E%3C/svg%3E"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <meta http-equiv="refresh" content="30"/>
 <title>MeshBroker · Agent Heartbeat</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23000'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%2300d4ff'/%3E%3Ccircle cx='9' cy='9' r='2.5' fill='%23fff' fill-opacity='.3'/%3E%3Ccircle cx='23' cy='9' r='2.5' fill='%2300d4ff'/%3E%3Ccircle cx='9' cy='23' r='2.5' fill='%2300d4ff'/%3E%3Ccircle cx='23' cy='23' r='2.5' fill='%23fff' fill-opacity='.3'/%3E%3C/svg%3E"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet"/>
 <style>
@@ -14,336 +14,178 @@
   --bg:#050810;--bg2:#080d14;--bg3:#0c1219;
   --b1:#0e1a26;--b2:#162436;
   --cyan:#00d4ff;--green:#00ff9d;--amber:#ffb700;--red:#ff4444;
-  --text:#a8c0d0;--dim:#3a5a6a;--mute:#162030;
-  --mono:'JetBrains Mono',monospace;--sans:'Space Grotesk','Outfit',sans-serif;
+  --text:#a8c0d0;--dim:#3a5a6a;
+  --mono:'JetBrains Mono',monospace;
+  --sans:'Outfit','Space Grotesk',sans-serif;
 }
 html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:var(--mono)}
-body{
-  background-image:
-    linear-gradient(rgba(0,212,255,.02) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(0,212,255,.02) 1px,transparent 1px);
-  background-size:52px 52px;
-}
-.page{max-width:1280px;margin:0 auto;padding:0 36px 48px}
+body{background-image:linear-gradient(rgba(0,212,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.02) 1px,transparent 1px);background-size:52px 52px;}
+.page{max-width:1280px;margin:0 auto;padding:32px 36px 48px}
 
-/* ── GITHUB BANNER ── */
-.gh-banner{
-  background:linear-gradient(135deg,rgba(0,212,255,.08),rgba(0,212,255,.03));
-  border-bottom:1px solid rgba(0,212,255,.15);
-  padding:12px 36px;margin:0 -36px 0;
-  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
-}
-.gh-banner-left{display:flex;align-items:center;gap:16px}
-.banner-logo-svg svg{height:40px;width:auto;display:block}
-.banner-logo-text{font-family:var(--sans);font-size:20px;font-weight:800;color:#fff}
-.banner-logo-text span{color:var(--cyan)}
-.banner-tagline{font-size:10px;letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
-.gh-banner-right{display:flex;align-items:center;gap:16px}
-.gh-link{
-  display:flex;align-items:center;gap:8px;
-  padding:8px 18px;border:1px solid rgba(0,212,255,.3);border-radius:7px;
-  background:rgba(0,212,255,.06);color:var(--cyan);text-decoration:none;
-  font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;
-  transition:all .2s;
-}
-.gh-link:hover{background:rgba(0,212,255,.14);box-shadow:0 0 16px rgba(0,212,255,.2)}
-.gh-badge{
-  font-size:10px;letter-spacing:.1em;color:var(--dim);
-  padding:6px 12px;border:1px solid var(--b2);border-radius:6px;
-  background:var(--bg2);
-}
-
-/* ── HEADER ── */
-.hdr{
-  display:flex;align-items:center;justify-content:space-between;
-  margin:28px 0 32px;padding-bottom:22px;border-bottom:1px solid var(--b1);
-  flex-wrap:wrap;gap:16px;
-}
+.hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;padding-bottom:22px;border-bottom:1px solid var(--b1);flex-wrap:wrap;gap:16px;}
 .logo{display:flex;align-items:center;gap:14px}
-.logo-box{
-  width:44px;height:44px;border:2px solid var(--cyan);border-radius:10px;
-  display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--cyan);
-  box-shadow:0 0 20px rgba(0,212,255,.25),inset 0 0 12px rgba(0,212,255,.06);
-}
+.logo-box{width:44px;height:44px;border:2px solid var(--cyan);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--cyan);box-shadow:0 0 20px rgba(0,212,255,.25);}
 .logo-name{font-family:var(--sans);font-size:22px;font-weight:800;color:#fff;letter-spacing:-.5px}
 .logo-name b{color:var(--cyan)}
 .logo-sub{font-size:9px;letter-spacing:.22em;color:var(--dim);text-transform:uppercase;margin-top:3px}
 .hdr-right{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
-.conn-badge{
-  display:flex;align-items:center;gap:9px;padding:8px 16px;
-  border:1px solid var(--b2);border-radius:8px;background:var(--bg2);
-}
-.dot-pulse{
-  width:9px;height:9px;border-radius:50%;background:var(--green);
-  box-shadow:0 0 10px var(--green),0 0 20px rgba(0,255,157,.35);
-  animation:pulse 1.8s ease-in-out infinite;
-}
-.dot-pulse.dead{background:var(--red);box-shadow:0 0 10px var(--red);animation:none}
-@keyframes pulse{
-  0%,100%{transform:scale(1);box-shadow:0 0 10px var(--green),0 0 20px rgba(0,255,157,.35)}
-  50%{transform:scale(1.4);box-shadow:0 0 18px var(--green),0 0 36px rgba(0,255,157,.55)}
-}
-.conn-text{font-size:11px;font-weight:600;letter-spacing:.14em;color:var(--green)}
-.hdr-ts{font-size:10px;color:var(--dim);line-height:1.6;text-align:right;letter-spacing:.04em}
+.conn-badge{display:flex;align-items:center;gap:9px;padding:8px 16px;border:1px solid var(--b2);border-radius:8px;background:var(--bg2);}
+.dot-pulse{width:9px;height:9px;border-radius:50%;background:#00ff9d;box-shadow:0 0 10px #00ff9d;animation:pulse 1.8s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(.85)}}
+.conn-text{font-size:11px;letter-spacing:.12em;color:#00ff9d;font-weight:600;}
+.updated{font-size:10px;color:var(--dim);text-align:right;line-height:1.6}
 
-/* ── STATS BAND ── */
-.band{
-  background:linear-gradient(135deg,rgba(0,212,255,.05) 0%,rgba(0,212,255,.01) 60%,transparent);
-  border:1px solid rgba(0,212,255,.14);border-radius:14px;
-  padding:28px 32px;margin-bottom:36px;position:relative;overflow:hidden;
-}
-.band::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
-               background:linear-gradient(90deg,transparent,var(--cyan) 40%,var(--cyan) 60%,transparent);opacity:.4}
-.band-title{font-size:10px;letter-spacing:.24em;color:var(--cyan);text-transform:uppercase;font-weight:600;margin-bottom:22px}
-.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:20px}
-@media(max-width:900px){.stats-row{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:560px){.stats-row{grid-template-columns:repeat(2,1fr)}}
-.s-box{background:var(--bg3);border:1px solid var(--b1);border-radius:10px;padding:18px 20px;position:relative;overflow:hidden}
-.s-box::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;
-               background:linear-gradient(90deg,transparent,rgba(0,212,255,.25),transparent)}
-.s-lbl{font-size:8px;letter-spacing:.22em;color:var(--dim);text-transform:uppercase;margin-bottom:10px}
-.s-val{font-size:28px;font-weight:700;line-height:1;letter-spacing:-.5px}
-.s-val.c{color:var(--cyan)}.s-val.g{color:var(--green)}.s-val.a{color:var(--amber)}.s-val.w{color:#fff}
-.s-sub{font-size:9px;color:var(--dim);margin-top:6px;letter-spacing:.06em}
+.stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:32px}
+@media(max-width:900px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+.stat-card{background:var(--bg2);border:1px solid var(--b2);border-radius:12px;padding:20px 18px;}
+.stat-card-label{font-size:9px;letter-spacing:.18em;color:var(--dim);text-transform:uppercase;margin-bottom:10px}
+.stat-card-val{font-family:var(--sans);font-size:26px;font-weight:800;line-height:1}
 
-/* ── DIVIDER ── */
-.divider{display:flex;align-items:center;gap:14px;margin:36px 0 20px}
-.div-label{font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
-.div-line{flex:1;height:1px;background:var(--b1)}
-.div-count{font-size:9px;letter-spacing:.18em;color:var(--dim);white-space:nowrap}
+.section-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.section-title{font-size:9px;letter-spacing:.2em;color:var(--dim);text-transform:uppercase;display:flex;align-items:center;gap:10px}
+.section-title::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 8px var(--cyan);}
+.section-count{font-size:10px;color:var(--dim);letter-spacing:.1em}
 
-/* ── AGENT CARDS ── */
-.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:20px}
-.card{border:1px solid;border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:transform .2s}
-.card:hover{transform:translateY(-3px)}
-.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:currentColor;opacity:.25}
-.card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-.card-top-left{display:flex;align-items:center;gap:10px}
-.tier-tag{font-size:9px;font-weight:700;letter-spacing:.16em;padding:3px 9px;border:1px solid;border-radius:4px}
-.card-name{font-family:var(--sans);font-size:17px;font-weight:800;color:#fff}
-.card-active{display:flex;align-items:center;gap:7px;font-size:9px;letter-spacing:.16em;color:var(--green)}
-.active-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s ease-in-out infinite}
-.card-addr{font-size:10px;color:var(--dim);letter-spacing:.05em;margin-bottom:3px}
-.card-spec{font-size:9px;letter-spacing:.2em;color:var(--dim);text-transform:uppercase;margin-bottom:18px}
-.rep-wrap{margin-bottom:18px}
-.rep-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
-.rep-lbl{font-size:8px;letter-spacing:.2em;color:var(--dim);text-transform:uppercase}
-.rep-num{font-size:18px;font-weight:700}
-.rep-track{height:5px;background:rgba(0,0,0,.4);border-radius:999px;overflow:hidden;border:1px solid var(--b2)}
-.rep-fill{height:100%;border-radius:999px;transition:width .8s ease}
-.card-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
-.cg-item{background:rgba(0,0,0,.25);border:1px solid var(--b1);border-radius:8px;padding:10px 8px;text-align:center}
-.cg-val{font-size:20px;font-weight:700;color:#fff;margin-bottom:3px;line-height:1}
-.cg-lbl{font-size:7px;letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
-.card-tx{font-size:9px;color:var(--dim);text-decoration:none;letter-spacing:.06em;display:block;transition:color .15s;padding-top:4px}
-.card-tx:hover{color:var(--cyan)}
+.agents-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px;margin-bottom:32px}
+.agent-card{background:var(--bg2);border:1px solid;border-radius:14px;padding:20px;}
+.agent-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.agent-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.tier-badge{font-size:9px;font-weight:700;letter-spacing:.12em;padding:3px 8px;border-radius:4px;border:1px solid;}
+.agent-name{font-family:var(--sans);font-size:16px;font-weight:700;color:#fff}
+.active-dot{font-size:9px;letter-spacing:.12em;color:var(--green);padding:2px 8px;border:1px solid #00ff9d33;border-radius:4px;background:#00ff9d0a;}
+.agent-addr{font-size:10px;color:var(--dim);margin-bottom:14px;letter-spacing:.04em}
+.rep-label{font-size:9px;letter-spacing:.14em;color:var(--dim);text-transform:uppercase;margin-bottom:6px}
+.rep-bar-bg{height:4px;background:var(--b2);border-radius:2px;margin-bottom:14px}
+.rep-bar-fill{height:100%;border-radius:2px;transition:width .3s}
+.agent-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.stat-box{background:var(--bg3);border-radius:6px;padding:8px;text-align:center}
+.stat-val{font-family:var(--sans);font-size:17px;font-weight:700;color:#e0e0e0}
+.stat-lbl{font-size:8px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase;margin-top:2px}
+.reg-tx{font-size:9px;color:var(--dim);letter-spacing:.04em;padding-top:10px;border-top:1px solid var(--b1)}
 
-/* ── TX FEED ── */
-.tx-panel{background:var(--bg2);border:1px solid var(--b1);border-radius:12px;overflow:hidden}
-.tx-row{
-  display:grid;grid-template-columns:200px 1fr auto;
-  align-items:center;gap:16px;padding:12px 20px;
-  border-bottom:1px solid var(--b1);transition:background .15s;
-}
+.tx-feed{background:var(--bg2);border:1px solid var(--b2);border-radius:14px;padding:20px;margin-bottom:32px}
+.tx-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--b1);font-size:11px;}
 .tx-row:last-child{border-bottom:none}
-.tx-row:hover{background:rgba(0,212,255,.02)}
-.tx-lbl{font-size:11px;color:var(--dim);letter-spacing:.06em}
-.tx-dot-wrap{display:flex;align-items:center;gap:8px}
-.tx-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 5px var(--green);flex-shrink:0}
-.tx-line{flex:1;height:1px;background:linear-gradient(90deg,rgba(0,255,157,.3),transparent);opacity:.3}
-.tx-hash{font-size:11px;text-align:right}
-.tx-hash a{color:var(--cyan);text-decoration:none;letter-spacing:.04em}
-.tx-hash a:hover{text-decoration:underline}
+.tx-label{color:var(--text);flex:1;min-width:160px}
+.tx-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);flex-shrink:0}
+.tx-hash{color:var(--cyan);text-decoration:none;font-family:var(--mono);letter-spacing:.04em}
+.tx-hash:hover{text-decoration:underline}
 
-/* ── FOOTER ── */
-.footer{
-  margin-top:40px;padding-top:20px;border-top:1px solid var(--b1);
-  display:flex;justify-content:space-between;align-items:center;
-  font-size:9px;color:var(--mute);flex-wrap:wrap;gap:8px;letter-spacing:.1em;
-}
-.footer a{color:var(--dim);text-decoration:none}
-.footer a:hover{color:var(--cyan)}
+.footer{text-align:center;padding-top:24px;border-top:1px solid var(--b1);font-size:10px;color:var(--dim);letter-spacing:.1em;line-height:2}
+.footer a{color:var(--cyan);text-decoration:none}
 </style>
 </head>
 <body>
 <div class="page">
 
-<!-- GITHUB BANNER WITH INLINE LOGO -->
-<div class="gh-banner">
-  <div class="gh-banner-left">
-    <div class="banner-logo-svg"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 120" width="600" height="120">
-  <rect width="600" height="120" fill="#000000"/>
-
-  <!-- 3x3 dot grid icon, origin at (32, 36) with 14px spacing -->
-  <!-- Row 1: dots at (32,36) (46,36) (60,36) -->
-  <!-- Row 2: dots at (32,50) (46,50) (60,50) -->
-  <!-- Row 3: dots at (32,64) (46,64) (60,64) -->
-
-  <!-- white 30% opacity dots -->
-  <circle cx="32" cy="36" r="3" fill="#FFFFFF" fill-opacity="0.3"/>
-  <circle cx="60" cy="36" r="3" fill="#FFFFFF" fill-opacity="0.3"/>
-  <circle cx="32" cy="50" r="3" fill="#FFFFFF" fill-opacity="0.3"/>
-  <circle cx="60" cy="50" r="3" fill="#FFFFFF" fill-opacity="0.3"/>
-  <circle cx="32" cy="64" r="3" fill="#FFFFFF" fill-opacity="0.3"/>
-  <circle cx="60" cy="64" r="3" fill="#FFFFFF" fill-opacity="0.3"/>
-
-  <!-- #00d4ff accent dots: center + top-right + bottom-left diagonals -->
-  <circle cx="46" cy="50" r="3" fill="#00d4ff"/>
-  <circle cx="60" cy="36" r="3" fill="#00d4ff"/>
-  <circle cx="32" cy="64" r="3" fill="#00d4ff"/>
-
-  <!-- Wordmark -->
-  <text
-    x="88"
-    y="67"
-    font-family="'Helvetica Neue','Arial',sans-serif"
-    font-size="42"
-    font-weight="600"
-    letter-spacing="0.15em"
-    fill="#FFFFFF"
-  >MESHBROKER</text>
-</svg>
-</div>
-    <div class="banner-tagline">Agent Trust Heartbeat &nbsp;·&nbsp; X Layer Testnet</div>
-  </div>
-  <div class="gh-banner-right">
-    <div class="gh-badge">OKX / X Layer Onchain OS AI Hackathon 2026</div>
-    <a href="https://github.com/Vinaystwt/meshbroker-agents" target="_blank" class="gh-link">
-      ↗ &nbsp;GitHub Repo
-    </a>
-  </div>
-</div>
-
-<!-- HEADER -->
 <div class="hdr">
   <div class="logo">
-    <div class="logo-box">⬡</div>
+    <div class="logo-box">
+  <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="4" cy="4" r="2.5" fill="#00d4ff"/>
+    <circle cx="11" cy="4" r="2.5" fill="white" fill-opacity="0.3"/>
+    <circle cx="18" cy="4" r="2.5" fill="#00d4ff"/>
+    <circle cx="4" cy="11" r="2.5" fill="white" fill-opacity="0.3"/>
+    <circle cx="11" cy="11" r="2.5" fill="#00d4ff"/>
+    <circle cx="18" cy="11" r="2.5" fill="white" fill-opacity="0.3"/>
+    <circle cx="4" cy="18" r="2.5" fill="#00d4ff"/>
+    <circle cx="11" cy="18" r="2.5" fill="white" fill-opacity="0.3"/>
+    <circle cx="18" cy="18" r="2.5" fill="#00d4ff"/>
+  </svg>
+</div>
     <div>
       <div class="logo-name">Mesh<b>Broker</b></div>
       <div class="logo-sub">Agent Trust Heartbeat</div>
     </div>
   </div>
   <div class="hdr-right">
-    <div class="conn-badge"><div class="dot-pulse"></div><span class="conn-text">CONNECTED</span></div>
-    <div class="hdr-ts">Updated: 2026-03-27 18:24:18 UTC<br/>Auto-refresh every 30s</div>
+    <div class="conn-badge">
+      <div class="dot-pulse"></div>
+      <span class="conn-text">CONNECTED</span>
+    </div>
+    <div class="updated">Updated: 2026-03-28 02:41:59 UTC<br/>Auto-refresh every 30s</div>
   </div>
 </div>
 
-<!-- STATS BAND -->
-<div class="band">
-  <div class="band-title">⬡ &nbsp;Protocol Statistics &nbsp;·&nbsp; X Layer Testnet (zkEVM)</div>
-  <div class="stats-row">
-    <div class="s-box">
-      <div class="s-lbl">Latest Block</div>
-      <div class="s-val g">#26,177,016</div>
-      <div class="s-sub">Confirmed on-chain</div>
-    </div>
-    <div class="s-box">
-      <div class="s-lbl">Escrow Balance</div>
-      <div class="s-val c">235.65 USDT</div>
-      <div class="s-sub">Locked in contract</div>
-    </div>
-    <div class="s-box">
-      <div class="s-lbl">Protocol Treasury</div>
-      <div class="s-val a">1.05 USDT</div>
-      <div class="s-sub">Accumulated slashes</div>
-    </div>
-    <div class="s-box">
-      <div class="s-lbl">Buyer Balance</div>
-      <div class="s-val w">749.38 USDT</div>
-      <div class="s-sub">Verifier account</div>
-    </div>
-    <div class="s-box">
-      <div class="s-lbl">Worker Balance</div>
-      <div class="s-val w">1015.08 USDT</div>
-      <div class="s-sub">Worker account</div>
-    </div>
-  </div>
+<div class="section-hdr"><div class="section-title">Protocol Statistics &nbsp;·&nbsp; X Layer Testnet (zkEVM)</div></div>
+<div class="stats-grid">
+  <div class="stat-card"><div class="stat-card-label">Latest Block</div><div class="stat-card-val" style="color:var(--cyan)">#26,206,877</div></div>
+  <div class="stat-card"><div class="stat-card-label">Escrow Balance</div><div class="stat-card-val" style="color:var(--cyan)">277.85 <span style="font-size:14px;color:var(--dim)">USDT</span></div></div>
+  <div class="stat-card"><div class="stat-card-label">Protocol Treasury</div><div class="stat-card-val" style="color:var(--amber)">2.17 <span style="font-size:14px;color:var(--dim)">USDT</span></div></div>
+  <div class="stat-card"><div class="stat-card-label">Buyer Balance</div><div class="stat-card-val">669.17 <span style="font-size:14px;color:var(--dim)">USDT</span></div></div>
+  <div class="stat-card"><div class="stat-card-label">Worker Balance</div><div class="stat-card-val">1053.08 <span style="font-size:14px;color:var(--dim)">USDT</span></div></div>
 </div>
 
-<!-- AGENTS -->
-<div class="divider">
-  <div class="div-label">Registered Agents</div>
-  <div class="div-line"></div>
-  <div class="div-count">2 active</div>
+<div class="section-hdr">
+  <div class="section-title">Registered Agents</div>
+  <div class="section-count">2 active</div>
 </div>
-<div class="cards-grid">
-<div class="card" style="border-color:#ffd700;box-shadow:0 0 32px rgba(255,215,0,0.4),0 0 0 1px #ffd70022;background:linear-gradient(135deg,rgba(255,215,0,0.06),rgba(255,215,0,0.02),transparent);">
-  <div class="card-top">
-    <div class="card-top-left">
-      <span class="tier-tag" style="color:#ffd700;border-color:#ffd700;box-shadow:0 0 10px rgba(255,215,0,0.4);">GOLD</span>
-      <span class="card-name">MeshVerifier-Prime</span>
+<div class="agents-grid">
+<div class="agent-card" style="border-color:#ffb70022;">
+  <div class="agent-top">
+    <div class="agent-left">
+      <span class="tier-badge" style="background:#ffb70022;color:#ffb700;border-color:#ffb70044;">GOLD</span>
+      <span class="agent-name">MeshVerifier-Prime</span>
+      <span class="active-dot">ACTIVE</span>
     </div>
-    <div class="card-active"><span class="active-dot"></span>ACTIVE</div>
   </div>
-  <div class="card-addr">0xeAc71834…2d1f80</div>
-  <div class="card-spec">SECURITY</div>
-  <div class="rep-wrap">
-    <div class="rep-top"><span class="rep-lbl">REPUTATION SCORE</span><span class="rep-num" style="color:#ffd700;">84.0/100</span></div>
-    <div class="rep-track"><div class="rep-fill" style="width:84%;background:linear-gradient(90deg,#ffd70088,#ffd700);box-shadow:0 0 10px rgba(255,215,0,0.4);"></div></div>
+  <div class="agent-addr">0xeAc7...2d1f80&nbsp;&nbsp;SECURITY</div>
+  <div class="rep-label">REPUTATION SCORE <span style="color:#ffb700;float:right;font-weight:700;">84.0/100</span></div>
+  <div class="rep-bar-bg"><div class="rep-bar-fill" style="width:84%;background:#ffb700;box-shadow:0 0 8px #ffb70066;"></div></div>
+  <div class="agent-stats">
+    <div class="stat-box"><div class="stat-val">5</div><div class="stat-lbl">COMPLETED</div></div>
+    <div class="stat-box"><div class="stat-val" style="color:#ff4444;">0</div><div class="stat-lbl">SLASHED</div></div>
+    <div class="stat-box"><div class="stat-val" style="color:#00d4ff;">10.0</div><div class="stat-lbl">STAKE USDT</div></div>
+    <div class="stat-box"><div class="stat-val" style="color:#e0e0e0;">669.2</div><div class="stat-lbl">BALANCE</div></div>
   </div>
-  <div class="card-grid">
-    <div class="cg-item"><div class="cg-val">5</div><div class="cg-lbl">COMPLETED</div></div>
-    <div class="cg-item"><div class="cg-val" style="color:#ff5555;">0</div><div class="cg-lbl">SLASHED</div></div>
-    <div class="cg-item"><div class="cg-val" style="color:#00ff9d;">10.0</div><div class="cg-lbl">STAKE USDT</div></div>
-    <div class="cg-item"><div class="cg-val" style="color:#00d4ff;">749.4</div><div class="cg-lbl">BALANCE</div></div>
-  </div>
-  <a class="card-tx" href="https://www.okx.com/explorer/xlayer-test/tx/0xd9235160a3cf517c6d39d33a2ad01baedf3f6a3dc87618c3cdb00e5d54da190b" target="_blank">↗ &nbsp;Registry TX &nbsp;d9235160a3cf51…</a>
-</div>
-<div class="card" style="border-color:#cd7f32;box-shadow:0 0 32px rgba(205,127,50,0.35),0 0 0 1px #cd7f3222;background:linear-gradient(135deg,rgba(205,127,50,0.06),rgba(205,127,50,0.02),transparent);">
-  <div class="card-top">
-    <div class="card-top-left">
-      <span class="tier-tag" style="color:#cd7f32;border-color:#cd7f32;box-shadow:0 0 10px rgba(205,127,50,0.35);">BRONZE</span>
-      <span class="card-name">MeshWorker-Alpha</span>
-    </div>
-    <div class="card-active"><span class="active-dot"></span>ACTIVE</div>
-  </div>
-  <div class="card-addr">0x81E9DfC4…18f54c</div>
-  <div class="card-spec">MARKET DATA</div>
-  <div class="rep-wrap">
-    <div class="rep-top"><span class="rep-lbl">REPUTATION SCORE</span><span class="rep-num" style="color:#cd7f32;">30.0/100</span></div>
-    <div class="rep-track"><div class="rep-fill" style="width:30%;background:linear-gradient(90deg,#cd7f3288,#cd7f32);box-shadow:0 0 10px rgba(205,127,50,0.35);"></div></div>
-  </div>
-  <div class="card-grid">
-    <div class="cg-item"><div class="cg-val">0</div><div class="cg-lbl">COMPLETED</div></div>
-    <div class="cg-item"><div class="cg-val" style="color:#ff5555;">0</div><div class="cg-lbl">SLASHED</div></div>
-    <div class="cg-item"><div class="cg-val" style="color:#00ff9d;">10.0</div><div class="cg-lbl">STAKE USDT</div></div>
-    <div class="cg-item"><div class="cg-val" style="color:#00d4ff;">1015.1</div><div class="cg-lbl">BALANCE</div></div>
-  </div>
-  <a class="card-tx" href="https://www.okx.com/explorer/xlayer-test/tx/0x2436d4facb021c9f2166c89784a723751ff9e19840afaa66f3cc33542912d77b" target="_blank">↗ &nbsp;Registry TX &nbsp;2436d4facb021c…</a>
-</div>
+  <div class="reg-tx">Registry TX &nbsp; d9235160a3cf517c6d...</div>
 </div>
 
-<!-- TX FEED -->
-<div class="divider">
-  <div class="div-label">Confirmed On-Chain Transactions</div>
-  <div class="div-line"></div>
-  <div class="div-count">12 total</div>
+<div class="agent-card" style="border-color:#cd7f3222;">
+  <div class="agent-top">
+    <div class="agent-left">
+      <span class="tier-badge" style="background:#cd7f3222;color:#cd7f32;border-color:#cd7f3244;">BRONZE</span>
+      <span class="agent-name">MeshWorker-Alpha</span>
+      <span class="active-dot">ACTIVE</span>
+    </div>
+  </div>
+  <div class="agent-addr">0x81E9...18f54c&nbsp;&nbsp;MARKET DATA</div>
+  <div class="rep-label">REPUTATION SCORE <span style="color:#cd7f32;float:right;font-weight:700;">30.0/100</span></div>
+  <div class="rep-bar-bg"><div class="rep-bar-fill" style="width:30%;background:#cd7f32;box-shadow:0 0 8px #cd7f3266;"></div></div>
+  <div class="agent-stats">
+    <div class="stat-box"><div class="stat-val">0</div><div class="stat-lbl">COMPLETED</div></div>
+    <div class="stat-box"><div class="stat-val" style="color:#ff4444;">0</div><div class="stat-lbl">SLASHED</div></div>
+    <div class="stat-box"><div class="stat-val" style="color:#00d4ff;">10.0</div><div class="stat-lbl">STAKE USDT</div></div>
+    <div class="stat-box"><div class="stat-val" style="color:#e0e0e0;">1053.1</div><div class="stat-lbl">BALANCE</div></div>
+  </div>
+  <div class="reg-tx">Registry TX &nbsp; 2436d4facb021c9f21...</div>
+</div></div>
+
+<div class="section-hdr">
+  <div class="section-title">Confirmed On-Chain Transactions</div>
+  <div class="section-count">12 total</div>
 </div>
-<div class="tx-panel">
-  <div class="tx-row"><span class="tx-lbl">Bounty 1 Post</span><div class="tx-dot-wrap"><div class="tx-dot"></div><div class="tx-line"></div></div><span class="tx-hash"><a href="https://www.okx.com/explorer/xlayer-test/tx/0x32dc7734084f1ef96ba03bb77a847ca0765d46433906e51c1301cd393e3d5240" target="_blank">32dc7734…3e3d5240</a></span></div>
-  <div class="tx-row"><span class="tx-lbl">Alpha Accept + Proof</span><div class="tx-dot-wrap"><div class="tx-dot"></div><div class="tx-line"></div></div><span class="tx-hash"><a href="https://www.okx.com/explorer/xlayer-test/tx/0x46c6634f8c9890267fc836966e73c18ed224604a01a30287192d25fbcc6f0254" target="_blank">46c6634f…cc6f0254</a></span></div>
-  <div class="tx-row"><span class="tx-lbl">Alpha Settlement</span><div class="tx-dot-wrap"><div class="tx-dot"></div><div class="tx-line"></div></div><span class="tx-hash"><a href="https://www.okx.com/explorer/xlayer-test/tx/0x7d0c2e04f842b038d23e8418a2e0a6d950f262c4de0aa99315a45a1301f69488" target="_blank">7d0c2e04…1f69488</a></span></div>
-  <div class="tx-row"><span class="tx-lbl">Bounty 2 Post</span><div class="tx-dot-wrap"><div class="tx-dot"></div><div class="tx-line"></div></div><span class="tx-hash"><a href="https://www.okx.com/explorer/xlayer-test/tx/0x30914746a9e87e6ece84feea9aea3377cbf0df8e4600103a183968aab9e1cd54" target="_blank">30914746…e1cd54</a></span></div>
-  <div class="tx-row"><span class="tx-lbl">Beta Accept + Proof</span><div class="tx-dot-wrap"><div class="tx-dot"></div><div class="tx-line"></div></div><span class="tx-hash"><a href="https://www.okx.com/explorer/xlayer-test/tx/0x004dd4757e967c12ba070c54354a9c1adb0c260bdb3e060822b2788e70e8c6b9" target="_blank">004dd475…e70e8c6b9</a></span></div>
-  <div class="tx-row"><span class="tx-lbl">x402 Buyer Approve</span><div class="tx-dot-wrap"><div class="tx-dot"></div><div class="tx-line"></div></div><span class="tx-hash"><a href="https://www.okx.com/explorer/xlayer-test/tx/0x167854dba736462df860fa592b19014834f8104e17c8311da04e7f619b4a6845" target="_blank">167854db…9b4a6845</a></span></div>
-  <div class="tx-row"><span class="tx-lbl">x402 createSLA</span><div class="tx-dot-wrap"><div class="tx-dot"></div><div class="tx-line"></div></div><span class="tx-hash"><a href="https://www.okx.com/explorer/xlayer-test/tx/0xf01c67f3b5e386982dba314a3ec1e3603c4c0d79dde39182b3ea4a6d6f0314d3" target="_blank">f01c67f3…6f0314d3</a></span></div>
-  <div class="tx-row"><span class="tx-lbl">x402 Worker Approve</span><div class="tx-dot-wrap"><div class="tx-dot"></div><div class="tx-line"></div></div><span class="tx-hash"><a href="https://www.okx.com/explorer/xlayer-test/tx/0xab8fc55ec84e3b984abcfb5143edb4b395b84af253dd797bc35a79e4ab240020" target="_blank">ab8fc55e…ab240020</a></span></div>
-  <div class="tx-row"><span class="tx-lbl">x402 acceptSLA</span><div class="tx-dot-wrap"><div class="tx-dot"></div><div class="tx-line"></div></div><span class="tx-hash"><a href="https://www.okx.com/explorer/xlayer-test/tx/0x962cfaa5ca1de4cb36926e49911180e02c5a512418cea07ec1ba331ff6526ad6" target="_blank">962cfaa5…ff6526ad6</a></span></div>
-  <div class="tx-row"><span class="tx-lbl">x402 submitProof</span><div class="tx-dot-wrap"><div class="tx-dot"></div><div class="tx-line"></div></div><span class="tx-hash"><a href="https://www.okx.com/explorer/xlayer-test/tx/0xfe78dd2afa1d28e5b702b2dd608ba2ef75cecff136261944158690d63d13942e" target="_blank">fe78dd2a…d13942e</a></span></div>
-  <div class="tx-row"><span class="tx-lbl">x402 verifyAndRelease</span><div class="tx-dot-wrap"><div class="tx-dot"></div><div class="tx-line"></div></div><span class="tx-hash"><a href="https://www.okx.com/explorer/xlayer-test/tx/0xd9235160a3cf517c6d39d33a2ad01baedf3f6a3dc87618c3cdb00e5d54da190b" target="_blank">d9235160…54da190b</a></span></div>
-  <div class="tx-row"><span class="tx-lbl">Agent Registration</span><div class="tx-dot-wrap"><div class="tx-dot"></div><div class="tx-line"></div></div><span class="tx-hash"><a href="https://www.okx.com/explorer/xlayer-test/tx/0x2436d4facb021c9f2166c89784a723751ff9e19840afaa66f3cc33542912d77b" target="_blank">2436d4fa…12d77b</a></span></div>
-</div>
+<div class="tx-feed"><div class="tx-row"><span class="tx-label">Bounty 1 Post</span><span class="tx-dot"></span><a class="tx-hash" href="https://www.okx.com/explorer/xlayer-test/tx/0x32dc7734084f1ef96ba03bb77a847ca0765d46433906e51c1301cd393e3d5240" target="_blank">32dc7734...3e3d5240</a></div>
+<div class="tx-row"><span class="tx-label">Alpha Accept + Proof</span><span class="tx-dot"></span><a class="tx-hash" href="https://www.okx.com/explorer/xlayer-test/tx/0x46c6634f8c9890267fc836966e73c18ed224604a01a30287192d25fbcc6f0254" target="_blank">46c6634f...cc6f0254</a></div>
+<div class="tx-row"><span class="tx-label">Alpha Settlement</span><span class="tx-dot"></span><a class="tx-hash" href="https://www.okx.com/explorer/xlayer-test/tx/0x7d0c2e04f842b038d23e8418a2e0a6d950f262c4de0aa99315a45a1301f69488" target="_blank">7d0c2e04...01f69488</a></div>
+<div class="tx-row"><span class="tx-label">Bounty 2 Post</span><span class="tx-dot"></span><a class="tx-hash" href="https://www.okx.com/explorer/xlayer-test/tx/0x30914746a9e87e6ece84feea9aea3377cbf0df8e4600103a183968aab9e1cd54" target="_blank">30914746...b9e1cd54</a></div>
+<div class="tx-row"><span class="tx-label">Beta Accept + Proof</span><span class="tx-dot"></span><a class="tx-hash" href="https://www.okx.com/explorer/xlayer-test/tx/0x004dd4757e967c12ba070c54354a9c1adb0c260bdb3e060822b2788e70e8c6b9" target="_blank">004dd475...70e8c6b9</a></div>
+<div class="tx-row"><span class="tx-label">Buyer USDT Approve</span><span class="tx-dot"></span><a class="tx-hash" href="https://www.okx.com/explorer/xlayer-test/tx/0x167854dba736462df860fa592b19014834f8104e17c8311da04e7f619b4a6845" target="_blank">167854db...9b4a6845</a></div>
+<div class="tx-row"><span class="tx-label">createSLA — lock</span><span class="tx-dot"></span><a class="tx-hash" href="https://www.okx.com/explorer/xlayer-test/tx/0xf01c67f3b5e386982dba314a3ec1e3603c4c0d79dde39182b3ea4a6d6f0314d3" target="_blank">f01c67f3...6f0314d3</a></div>
+<div class="tx-row"><span class="tx-label">Worker USDT Approve</span><span class="tx-dot"></span><a class="tx-hash" href="https://www.okx.com/explorer/xlayer-test/tx/0xab8fc55ec84e3b984abcfb5143edb4b395b84af253dd797bc35a79e4ab240020" target="_blank">ab8fc55e...ab240020</a></div>
+<div class="tx-row"><span class="tx-label">acceptSLA</span><span class="tx-dot"></span><a class="tx-hash" href="https://www.okx.com/explorer/xlayer-test/tx/0x962cfaa5ca1de4cb36926e49911180e02c5a512418cea07ec1ba331ff6526ad6" target="_blank">962cfaa5...f6526ad6</a></div>
+<div class="tx-row"><span class="tx-label">submitProof</span><span class="tx-dot"></span><a class="tx-hash" href="https://www.okx.com/explorer/xlayer-test/tx/0xfe78dd2afa1d28e5b702b2dd608ba2ef75cecff136261944158690d63d13942e" target="_blank">fe78dd2a...3d13942e</a></div>
+<div class="tx-row"><span class="tx-label">verifyAndRelease</span><span class="tx-dot"></span><a class="tx-hash" href="https://www.okx.com/explorer/xlayer-test/tx/0xd9235160a3cf517c6d39d33a2ad01baedf3f6a3dc87618c3cdb00e5d54da190b" target="_blank">d9235160...54da190b</a></div>
+<div class="tx-row"><span class="tx-label">Agent Registration</span><span class="tx-dot"></span><a class="tx-hash" href="https://www.okx.com/explorer/xlayer-test/tx/0x2436d4facb021c9f2166c89784a723751ff9e19840afaa66f3cc33542912d77b" target="_blank">2436d4fa...2912d77b</a></div></div>
 
 <div class="footer">
-  <span>MeshBroker &nbsp;·&nbsp; Trustless SLA Enforcement &nbsp;·&nbsp; X Layer Testnet (zkEVM) &nbsp;·&nbsp; OKX / X Layer Onchain OS AI Hackathon 2026</span>
-  <span>
-    <a href="https://github.com/Vinaystwt/meshbroker-agents" target="_blank">GitHub</a>
-    &nbsp;·&nbsp;
-    <a href="https://www.okx.com/explorer/xlayer-test/address/0x1699c6ae317F1f3DECaE37B806c174C4D3CAE26e" target="_blank">Contract</a>
-    &nbsp;·&nbsp;
-    <a href="https://www.okx.com/xlayer" target="_blank">X Layer</a>
-  </span>
+  MeshBroker &nbsp;·&nbsp; Trustless SLA Enforcement for the Agentic Economy<br/>
+  Built on X Layer (zkEVM) &nbsp;·&nbsp; OKX Onchain OS AI Hackathon 2026<br/>
+  <a href="https://github.com/Vinaystwt/meshbroker-agents" target="_blank">GitHub</a>
+  &nbsp;&nbsp;·&nbsp;&nbsp;
+  <a href="https://meshbroker.netlify.app" target="_blank">meshbroker.netlify.app</a>
+  &nbsp;&nbsp;·&nbsp;&nbsp;
+  <a href="https://twitter.com/vinaystwt" target="_blank">@vinaystwt</a>
 </div>
 
 </div>
